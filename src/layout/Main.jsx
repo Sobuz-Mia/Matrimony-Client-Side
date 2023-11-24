@@ -6,7 +6,7 @@ const Main = () => {
   return (
     <div>
       <Navbar />
-      <Grid sx={{mt:8}}>
+      <Grid sx={{pt:10}}>
         <Outlet />
       </Grid>
     </div>

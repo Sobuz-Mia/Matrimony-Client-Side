@@ -16,9 +16,49 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Container, Grid } from "@mui/material";
 import logo from "../../assets/logo.jpg";
+import { Link, NavLink } from "react-router-dom";
 const drawerWidth = 240;
 const navItems = ["Home", "Biodatas", "About Us", "Contact Us"];
-
+const navLinks = (
+  <>
+    <li className="navLink">
+      <NavLink
+        to="/"
+        className={({ isActive }) => (isActive ? "active" : "navLink")}
+        // style={{textDecoration:'none'}}
+      >
+        Home
+      </NavLink>
+    </li>
+    <li className="navLink">
+      <NavLink
+        to="/biodata"
+        className={({ isActive }) => (isActive ? "active" : "navLink")}
+        // style={{textDecoration:'none'}}
+      >
+        Biodatas
+      </NavLink>
+    </li>
+    <li className="navLink">
+      <NavLink
+        to="/about"
+        className={({ isActive }) => (isActive ? "active" : "navLink")}
+        // style={{textDecoration:'none'}}
+      >
+        About Us
+      </NavLink>
+    </li>
+    <li className="navLink">
+      <NavLink
+        to="/contact"
+        className={({ isActive }) => (isActive ? "active" : "navLink")}
+        // style={{textDecoration:'none'}}
+      >
+        Contact Us
+      </NavLink>
+    </li>
+  </>
+);
 function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -71,7 +111,7 @@ function Navbar(props) {
                 display: { xs: "none", sm: "block", color: "black" },
               }}
             >
-              <Grid sx={{display:'flex',alignItems:'center', gap:'10px'}}>
+              <Grid sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <img
                   src={logo}
                   style={{
@@ -82,25 +122,26 @@ function Navbar(props) {
                   }}
                   alt=""
                 />
-                <p>Matri <span style={{color:'#E33183'}}>Marry</span></p>
+                <p>
+                  Matri <span style={{ color: "#E33183" }}>Marry</span>
+                </p>
               </Grid>
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item}
-                  sx={{
-                    color: "black",
-                    textTransform: "capitalize",
-                    fontSize: "18px",
-                  }}
-                >
-                  {item}
-                </Button>
-              ))}
-              <Button variant="outlined" color="secondary">
-                Login
-              </Button>
+              <ul
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  listStyle: "none",
+                }}
+              >
+                {navLinks}
+                <Link to={"/login"}>
+                  <Button variant="outlined" color="secondary">
+                    Login
+                  </Button>
+                </Link>
+              </ul>
             </Box>
           </Toolbar>
         </Container>

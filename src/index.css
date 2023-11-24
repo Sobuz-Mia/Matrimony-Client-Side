@@ -1,0 +1,10 @@
+.active{
+    text-decoration: underline;
+    color: #E33183;
+    margin-right: 10px;
+}
+.navLink{
+    text-decoration:none;
+    color: #272727;
+    margin-right: 10px;
+}
