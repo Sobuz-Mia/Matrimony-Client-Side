@@ -29,7 +29,7 @@ const Banner = () => {
         className="mySwiper"
       >
         {biodata.slice(0, 6).map((item) => (
-          <SwiperSlide key={item}>
+          <SwiperSlide key={item.biodataId}>
             <Grid sx={{width:'100%',textAlign:'center',margin:'auto',height:'400px'}}>
               <BannerCard item={item} />
             </Grid>

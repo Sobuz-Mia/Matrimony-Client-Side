@@ -9,22 +9,55 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import useAuth from "./../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 export default function Register() {
+  const { createUser, handleUpdateProfile } = useAuth();
+  const navigate = useNavigate();
   // handle input filed value
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = data.get("name");
-    const email = data.get("email");
-    const password = data.get("password");
-    const photoUrl = data.get("photo");
 
-    console.log(name,email,password,photoUrl);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("hello")
+    const data = new FormData(event.currentTarget);
+    const userInfo = {
+      name:data.get("name"),
+      email:data.get("email"),
+      password:data.get("password"),
+      photoUrl:data.get("photo")
+    }
+    console.log(userInfo)
+    // const name = data.get("name");
+    // const email = data.get("email");
+    // const password = data.get("password");
+    // const photoUrl = data.get("photo");
+    try {
+      // create user
+      const result = await createUser(userInfo.email, userInfo.password);
+      // update user
+      if (result.user) {
+        handleUpdateProfile(userInfo.name,userInfo.photoUrl).then(() => {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your account created successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
+        });
+      } else {
+        console.log("update not complete");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // console.log(name,email,password,photoUrl);
   };
   const defaultTheme = createTheme();
   return (

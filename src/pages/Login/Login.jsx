@@ -10,18 +10,42 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const {loggedInUser} = useAuth();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
     console.log(email,password);
+    loggedInUser(email,password)
+    .then(res=>{
+      if(res.user){
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Log in successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    })
+    .catch((error) => {
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...Sorry",
+          text: "Invalid email / password!",
+        });
+      }
+    });
   };
 
   return (

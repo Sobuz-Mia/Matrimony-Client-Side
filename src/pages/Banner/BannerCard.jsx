@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function BannerCard({ item }) {
   const { age, biodataId, biodataType, division, occupation, profileImage } =
     item;
-  console.log(item);
+ 
   return (
     <Card sx={{ height: "full" }}>
       <CardActionArea>
