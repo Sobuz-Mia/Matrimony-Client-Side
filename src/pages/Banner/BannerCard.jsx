@@ -1,7 +1,8 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Grid, Paper } from "@mui/material";
+import { Button, CardActionArea, Grid, Paper } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function BannerCard({ item }) {
   const { age, biodataId, biodataType, division, occupation, profileImage } =
@@ -13,9 +14,9 @@ export default function BannerCard({ item }) {
         <Grid>
           <img
             style={{
-              height: "200px",
+              height: "150px",
               borderRadius: "50%",
-              width: "200px",
+              width: "150px",
               pt: 5,
             }}
             src={profileImage}
@@ -40,12 +41,19 @@ export default function BannerCard({ item }) {
           <Typography variant="h6" color="#272727">
             Age:{age}
           </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Location:{division}
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Occupation:{occupation}
-          </Typography>
+          <Grid sx={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+            <Typography variant="h6" color="text.secondary">
+              <span style={{ color: "#272727" }}>Location:</span> {division}
+            </Typography>
+            <Typography variant="h6" color="text.secondary">
+              <span style={{ color: "#272727" }}>Occupation:</span> {occupation}
+            </Typography>
+          </Grid>
+          <Link to={'/details'}>
+            <Button variant="outlined" color="secondary" sx={{ my: "10px" }}>
+              View Profile
+            </Button>
+          </Link>
         </CardContent>
       </CardActionArea>
     </Card>
