@@ -67,7 +67,7 @@ function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { user ,loggedOut} = useAuth();
+  const { user, loggedOut } = useAuth();
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -79,17 +79,17 @@ function Navbar(props) {
     setMobileOpen((prevState) => !prevState);
   };
   // signOut button
-  const handleSignOut =() =>{
-    loggedOut().then(()=>{
+  const handleSignOut = () => {
+    loggedOut().then(() => {
       Swal.fire({
         position: "center",
         icon: "success",
         title: "User log out successfully",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
-    })
-  }
+    });
+  };
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -164,10 +164,7 @@ function Navbar(props) {
                   <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar
-                          alt="Remy Sharp"
-                          src={user?.photoURL}
-                        />
+                        <Avatar alt="Remy Sharp" src={user?.photoURL} />
                       </IconButton>
                     </Tooltip>
                     <Menu
@@ -187,10 +184,14 @@ function Navbar(props) {
                       onClose={handleCloseUserMenu}
                     >
                       <MenuItem>
-                        <Typography textAlign="center">Profile({user?.displayName})</Typography>
+                        <Typography textAlign="center">
+                          Profile({user?.displayName})
+                        </Typography>
                       </MenuItem>
                       <MenuItem>
-                        <Typography textAlign="center">Dashboard</Typography>
+                        <Link to={'dashboard'} className="navLink">
+                          <Typography textAlign="center">Dashboard</Typography>
+                        </Link>
                       </MenuItem>
                       <MenuItem onClick={handleSignOut}>
                         <Typography textAlign="center">Logout</Typography>

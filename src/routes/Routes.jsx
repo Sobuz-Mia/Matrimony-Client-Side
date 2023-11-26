@@ -5,6 +5,9 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from './../pages/Register/Register';
 import Biodatas from "../pages/Biodatas/Biodatas";
+import BiodataDetailPage from "../pages/Biodatas/BiodataDetailPage";
+import Dashboard from "../layout/Dashboard";
+import EditBiodata from "../pages/dashboard/EditBiodata/EditBiodata";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +22,10 @@ const router = createBrowserRouter([
       {
         path:'biodatas',
         element:<Biodatas/>
+      },
+      {
+        path:'biodatas/detailsPage/:id',
+        element:<BiodataDetailPage/>
       }
     ],
   },
@@ -31,6 +38,18 @@ const router = createBrowserRouter([
     path: "register",
     element: <Register/>,
   },
+
+  // dashboard routes
+  {
+    path:'dashboard',
+    element:<Dashboard/>,
+    children:[
+      {
+        path:'editBiodata',
+        element:<EditBiodata/>
+      }
+    ]
+  }
 ]);
 
 export default router;

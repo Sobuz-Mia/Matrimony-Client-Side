@@ -36,7 +36,7 @@ const BiodataCard = ({ biodata }) => {
         </Typography>
       </CardContent>
       <Grid container justifyContent="center" alignItems="center">
-        <Link>
+        <Link to={`detailsPage/${biodata._id}`}>
           <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
             View Profile
           </Button>
