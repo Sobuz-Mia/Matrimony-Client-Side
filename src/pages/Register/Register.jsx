@@ -15,33 +15,32 @@ import { createTheme } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import useAuth from "./../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { useRef } from "react";
 
 export default function Register() {
   const { createUser, handleUpdateProfile } = useAuth();
   const navigate = useNavigate();
+  const formRef = useRef(null);
   // handle input filed value
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("hello")
+    console.log("hello");
     const data = new FormData(event.currentTarget);
     const userInfo = {
-      name:data.get("name"),
-      email:data.get("email"),
-      password:data.get("password"),
-      photoUrl:data.get("photo")
-    }
-    console.log(userInfo)
-    // const name = data.get("name");
-    // const email = data.get("email");
-    // const password = data.get("password");
-    // const photoUrl = data.get("photo");
+      name: data.get("name"),
+      email: data.get("email"),
+      password: data.get("password"),
+      photoUrl: data.get("photo"),
+    };
+    
     try {
       // create user
       const result = await createUser(userInfo.email, userInfo.password);
       // update user
       if (result.user) {
-        handleUpdateProfile(userInfo.name,userInfo.photoUrl).then(() => {
+        handleUpdateProfile(userInfo.name, userInfo.photoUrl).then(() => {
+          formRef.current.reset();
           Swal.fire({
             position: "center",
             icon: "success",
@@ -55,7 +54,12 @@ export default function Register() {
         console.log("update not complete");
       }
     } catch (error) {
-      console.log(error);
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          text: "Already exist email/something wrong",
+        });
+      }
     }
     // console.log(name,email,password,photoUrl);
   };
@@ -91,6 +95,7 @@ export default function Register() {
               noValidate
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}
+              ref={formRef}
             >
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>

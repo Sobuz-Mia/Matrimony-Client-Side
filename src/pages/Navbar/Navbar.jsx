@@ -6,19 +6,23 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Container, Grid } from "@mui/material";
+import {
+  Avatar,
+  Container,
+  Grid,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
 import logo from "../../assets/logo.jpg";
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 const drawerWidth = 240;
-const navItems = ["Home", "Biodatas", "About Us", "Contact Us"];
 const navLinks = (
   <>
     <li className="navLink">
@@ -32,7 +36,7 @@ const navLinks = (
     </li>
     <li className="navLink">
       <NavLink
-        to="/biodata"
+        to="/biodatas"
         className={({ isActive }) => (isActive ? "active" : "navLink")}
         // style={{textDecoration:'none'}}
       >
@@ -62,26 +66,46 @@ const navLinks = (
 function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { user ,loggedOut} = useAuth();
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
+  // signOut button
+  const handleSignOut =() =>{
+    loggedOut().then(()=>{
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "User log out successfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    })
+  }
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         MUI
       </Typography>
       <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <ul
+        style={{
+          display: "flex",
+          alignItems: "center",
+          listStyle: "none",
+          flexDirection: "column",
+        }}
+      >
+        {navLinks}
+      </ul>
     </Box>
   );
 
@@ -136,11 +160,50 @@ function Navbar(props) {
                 }}
               >
                 {navLinks}
-                <Link to={"/login"}>
-                  <Button variant="outlined" color="secondary">
-                    Login
-                  </Button>
-                </Link>
+                {user ? (
+                  <Box sx={{ flexGrow: 0 }}>
+                    <Tooltip title="Open settings">
+                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                        <Avatar
+                          alt="Remy Sharp"
+                          src={user?.photoURL}
+                        />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      sx={{ mt: "45px" }}
+                      id="menu-appbar"
+                      anchorEl={anchorElUser}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorElUser)}
+                      onClose={handleCloseUserMenu}
+                    >
+                      <MenuItem>
+                        <Typography textAlign="center">Profile({user?.displayName})</Typography>
+                      </MenuItem>
+                      <MenuItem>
+                        <Typography textAlign="center">Dashboard</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={handleSignOut}>
+                        <Typography textAlign="center">Logout</Typography>
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+                ) : (
+                  <Link to={"/login"}>
+                    <Button variant="outlined" color="secondary">
+                      Login
+                    </Button>
+                  </Link>
+                )}
               </ul>
             </Box>
           </Toolbar>

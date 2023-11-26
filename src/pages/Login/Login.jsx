@@ -12,40 +12,43 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { useRef } from "react";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const {loggedInUser} = useAuth();
+  const { loggedInUser } = useAuth();
+  const formRef = useRef(null);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
-    console.log(email,password);
-    loggedInUser(email,password)
-    .then(res=>{
-      if(res.user){
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Log in successfully",
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-    })
-    .catch((error) => {
-      if (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...Sorry",
-          text: "Invalid email / password!",
-        });
-      }
-    });
+    console.log(email, password);
+    loggedInUser(email, password)
+      .then((res) => {
+        if (res.user) {
+          formRef.current.reset();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Log in successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...Sorry",
+            text: "Invalid email / password!",
+          });
+        }
+      });
   };
 
   return (
@@ -79,6 +82,7 @@ export default function Login() {
               noValidate
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}
+              ref={formRef}
             >
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -124,7 +128,7 @@ export default function Login() {
                 <Button
                   variant="outlined"
                   color="secondary"
-                  sx={{ mb: 5,width:'100%' }}
+                  sx={{ mb: 5, width: "100%" }}
                 >
                   <GoogleIcon />
                 </Button>
