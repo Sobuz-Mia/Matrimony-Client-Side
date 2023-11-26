@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <Grid container>
+      <Grid container style={{display:'flex',gap:'10px'}}>
         {/* Sidebar */}
         <Grid item style={sidebarStyle}>
           <Typography
@@ -30,7 +30,7 @@ const Dashboard = () => {
             variant="subtitle2"
             sx={{ letterSpacing: "5px", marginBottom: "1rem" ,width:'full'}}
           >
-            Find your partner
+            Find your soulmate
           </Typography>
           <List sx={{ padding: 0 }}>
             <ListItem  sx={{ marginBottom: "1rem" }}>
@@ -98,7 +98,7 @@ const Dashboard = () => {
         </Grid>
 
         {/* Content */}
-        <Grid item className="flex-1">
+        <Grid item style={{flexGrow:1}}>
           <Outlet />
         </Grid>
       </Grid>
