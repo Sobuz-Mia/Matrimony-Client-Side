@@ -41,7 +41,7 @@ const Biodatas = () => {
       </form>
       <Grid container spacing={2}>
       {biodata.map((biodata) => (
-        <Grid key={biodata.id} item xs={12} md={4}>
+        <Grid key={biodata._id} item xs={12} md={4}>
           <BiodataCard biodata={biodata} />
         </Grid>
       ))}

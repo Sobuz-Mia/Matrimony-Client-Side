@@ -40,49 +40,48 @@ const ViewBiodata = () => {
 
   // Handle form submission logic
   const onSubmit = (data) => {
-    console.log(data);
     const biodataInfo = {
-      age: data.age,
-      biodataType: data.biodataType,
-      dateOfBirth: data.dateOfBirth,
-      fatherName: data.fatherName,
-      height: data.height,
-      motherName: data.motherName,
+      biodataId: existingBiodata?.biodataId,
       name: data.name,
       email: user?.email,
-      occupation: data.occupation,
-      partnerHeight: data.partnerHeight,
-      partnerWeight: data.partnerWeight,
-      permanentDivision: data.permanentDivision,
-      photoUrl: data.photoUrl,
-      presentDivision: data.presentDivision,
-      race: data.race,
-      weight: data.weight,
+      contactEmail: data.contactEmail|| '',
+      phone: data.phoneNumber || '',
+      premiumRequest: "Pending to premium",
     };
-    // create biodata
-    axiosSecure.post("/edit-create/biodata", biodataInfo).then((res) => {
-      if (res.data.insertedId) {
-        reset();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `${user?.displayName} Your biodata has been created`,
-          showConfirmButton: false,
-          timer: 1500,
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able request this biodata to premium!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // create biodata
+        axiosSecure.post("/make-premium/request", biodataInfo).then((res) => {
+          if (res.data.insertedId) {
+            reset();
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: `${user?.displayName} Your Request has been accepted`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
         });
       }
     });
-    // update biodata
-   
   };
-
+  console.log(existingBiodata);
   return (
     <Container>
       <Typography
         sx={{ textAlign: "center", my: 2, fontSize: "30px" }}
         color={"secondary"}
       >
-        Edit Biodata
+        View Biodata & make premium
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
@@ -95,6 +94,7 @@ const ViewBiodata = () => {
                     name="biodataType"
                     control={control}
                     defaultValue={existingBiodata.biodataType}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -115,6 +115,7 @@ const ViewBiodata = () => {
                     name="name"
                     control={control}
                     defaultValue={existingBiodata?.name}
+                    disabled
                     render={({ field }) => (
                       <TextField {...field} label="Name" fullWidth required />
                     )}
@@ -126,6 +127,7 @@ const ViewBiodata = () => {
                     name="photoUrl"
                     control={control}
                     defaultValue={existingBiodata?.photoUrl}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -141,6 +143,7 @@ const ViewBiodata = () => {
                     name="dateOfBirth"
                     control={control}
                     defaultValue={existingBiodata?.dateOfBirth}
+                    disabled
                     render={({ field }) => (
                       <input {...field} type="date" style={{ width: "50%" }} />
                     )}
@@ -153,6 +156,7 @@ const ViewBiodata = () => {
                     name="height"
                     control={control}
                     defaultValue={existingBiodata?.height}
+                    disabled
                     render={({ field }) => (
                       <TextField {...field} label="Height" fullWidth required />
                     )}
@@ -163,6 +167,7 @@ const ViewBiodata = () => {
                     name="weight"
                     control={control}
                     defaultValue={existingBiodata?.weight}
+                    disabled
                     render={({ field }) => (
                       <TextField {...field} label="Weight" fullWidth required />
                     )}
@@ -172,6 +177,7 @@ const ViewBiodata = () => {
                     name="age"
                     control={control}
                     defaultValue={existingBiodata?.age}
+                    disabled
                     render={({ field }) => (
                       <TextField {...field} label="Age" fullWidth required />
                     )}
@@ -183,6 +189,7 @@ const ViewBiodata = () => {
                     name="occupation"
                     control={control}
                     defaultValue={existingBiodata?.occupation}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -198,6 +205,7 @@ const ViewBiodata = () => {
                     name="race"
                     control={control}
                     defaultValue={existingBiodata?.race}
+                    disabled
                     render={({ field }) => (
                       <TextField {...field} label="Race" fullWidth required />
                     )}
@@ -209,6 +217,7 @@ const ViewBiodata = () => {
                     name="fatherName"
                     control={control}
                     defaultValue={existingBiodata?.fatherName}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -224,6 +233,7 @@ const ViewBiodata = () => {
                     name="motherName"
                     control={control}
                     defaultValue={existingBiodata?.motherName}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -240,6 +250,7 @@ const ViewBiodata = () => {
                     name="permanentDivision"
                     control={control}
                     defaultValue={existingBiodata?.permanentDivision}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -255,6 +266,7 @@ const ViewBiodata = () => {
                     name="presentDivision"
                     control={control}
                     defaultValue={existingBiodata?.presentDivision}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -271,6 +283,7 @@ const ViewBiodata = () => {
                     name="partnerHeight"
                     control={control}
                     defaultValue={existingBiodata?.partnerHeight}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -286,6 +299,7 @@ const ViewBiodata = () => {
                     name="partnerWeight"
                     control={control}
                     defaultValue={existingBiodata?.partnerWeight}
+                    disabled
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -297,6 +311,33 @@ const ViewBiodata = () => {
                   />
                 </Grid>
 
+                <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
+                  {/*partner height */}
+                  <Controller
+                    name="contactEmail"
+                    control={control}
+                    defaultValue={""}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Contact email"
+                        fullWidth
+                        required
+                      />
+                    )}
+                  />
+
+                  {/* partner weight */}
+                  <Controller
+                    name="phoneNumber"
+                    control={control}
+                    defaultValue={""}
+                    render={({ field }) => (
+                      <TextField {...field} label="Phone" fullWidth required />
+                    )}
+                  />
+                </Grid>
+
                 {/* Submit Button */}
                 <Button
                   type="submit"
@@ -304,7 +345,7 @@ const ViewBiodata = () => {
                   color="secondary"
                   sx={{ textTransform: "capitalize" }}
                 >
-                  Save And Publish Now
+                  Make biodata to premium
                 </Button>
               </CardContent>
             </Card>

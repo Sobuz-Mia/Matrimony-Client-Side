@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const BiodataCard = ({ biodata }) => {
+const   BiodataCard = ({ biodata }) => {
   return (
     <Card sx={{ maxWidth: 345, margin: 2 }}>
       <CardMedia
@@ -26,7 +26,7 @@ const BiodataCard = ({ biodata }) => {
           Biodata Type: {biodata.gender === "male" ? "Male" : "Female"}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Permanent Division: {biodata.division}
+          Permanent Division: {biodata.permanentDivision}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Age: {biodata.age}
