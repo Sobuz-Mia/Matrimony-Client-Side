@@ -14,7 +14,7 @@ const BiodataCard = ({ biodata }) => {
       <CardMedia
         component="img"
         height="140"
-        image={biodata.profileImage}
+        image={biodata.photoUrl}
         alt="Profile Image"
         sx={{ objectFit: "cover" }}
       />

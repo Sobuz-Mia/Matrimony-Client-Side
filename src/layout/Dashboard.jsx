@@ -55,7 +55,7 @@ const Dashboard = () => {
             </ListItem>
             <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
               <RouterNavLink
-                to="/dashboard/manageItems"
+                to="/dashboard/viewBiodata"
              
                 className={({ isActive }) =>
                 isActive ?"active" : "navLink" 
