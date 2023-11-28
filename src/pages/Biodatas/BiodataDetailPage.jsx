@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const BiodataDetailPage = () => {
   const axiosSecure = useAxiosSecure();
@@ -20,7 +21,6 @@ const BiodataDetailPage = () => {
   const [biodata, setBiodata] = useState([]);
   const [similarData, setSimilarData] = useState([]);
   const [premiumData, setPremiumData] = useState(null);
-
   useEffect(() => {
     // fetch single data
     axiosSecure.get(`/biodata/${id}`).then((res) => {
@@ -38,7 +38,20 @@ const BiodataDetailPage = () => {
       .get(`/check-user-premium?email=${user?.email}&id=${biodata?.biodataId}`)
       .then((res) => setPremiumData(res.data));
   }, [axiosSecure, id, biodata.biodataType, user?.email, biodata?.biodataId]);
-  // console.log(premiumData.message);
+  //  handle add to favourites data
+  const handleAddToFavourites = () => {
+    axiosSecure.post("/addToFavourite-collection", biodata).then((res) => {
+      if (res.data.insertedId) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `Your Card has been to Favourite`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
   return (
     <Grid container spacing={3}>
       {/* Left Side: Biodata Details Information */}
@@ -100,7 +113,10 @@ const BiodataDetailPage = () => {
                 Contact Information
               </Typography>
               {premiumData?.message === "you are not premium member" ? (
-                <Typography style={{color:'red'}}>{premiumData?.message} <br /> Please make sure premium from dashboard</Typography>
+                <Typography style={{ color: "red" }}>
+                  {premiumData?.message} <br /> Please make sure premium from
+                  dashboard
+                </Typography>
               ) : (
                 <Grid>
                   <Typography gutterBottom variant="h5" component="div">
@@ -119,14 +135,23 @@ const BiodataDetailPage = () => {
             </CardContent>
           </Grid>
           <Grid container justifyContent="center" alignItems="center" gap={5}>
-            <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
+            <Button
+              onClick={handleAddToFavourites}
+              variant="contained"
+              color="secondary"
+              sx={{ mb: 3 }}
+            >
               Add to favourites
             </Button>
 
-            <Link to={`/detailsPage/${biodata._id}`}>
-              <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
-                Request for contact information
-              </Button>
+            <Link to={`/checkout/${biodata?._id}`}>
+              {premiumData?.message == "you are not premium member" ? (
+                <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
+                  Request for contact information
+                </Button>
+              ) : (
+                ""
+              )}
             </Link>
           </Grid>
         </Card>

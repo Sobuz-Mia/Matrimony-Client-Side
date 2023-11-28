@@ -3,12 +3,14 @@ import Main from "../layout/Main";
 import Error from "../pages/ErrorPages/Error";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
-import Register from './../pages/Register/Register';
+import Register from "./../pages/Register/Register";
 import Biodatas from "../pages/Biodatas/Biodatas";
 import BiodataDetailPage from "../pages/Biodatas/BiodataDetailPage";
 import Dashboard from "../layout/Dashboard";
 import EditBiodata from "../pages/dashboard/EditBiodata/EditBiodata";
 import ViewBiodata from "../pages/dashboard/ViewBiodata/ViewBiodata";
+import Checkout from "../pages/Checkout/Checkout";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -21,13 +23,21 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path:'biodatas',
-        element:<Biodatas/>
+        path: "biodatas",
+        element: <Biodatas />,
       },
       {
-        path:'biodatas/detailsPage/:id',
-        element:<BiodataDetailPage/>
-      }
+        path: "biodatas/detailsPage/:id",
+        element: <BiodataDetailPage />,
+      },
+      {
+        path: "checkout/:id",
+        element: (
+          <PrivateRoute>
+            <Checkout />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 
@@ -37,24 +47,24 @@ const router = createBrowserRouter([
   },
   {
     path: "register",
-    element: <Register/>,
+    element: <Register />,
   },
 
   // dashboard routes
   {
-    path:'dashboard',
-    element:<Dashboard/>,
-    children:[
+    path: "dashboard",
+    element: <Dashboard />,
+    children: [
       {
-        path:'editBiodata',
-        element:<EditBiodata/>
+        path: "editBiodata",
+        element: <EditBiodata />,
       },
       {
-        path:'viewBiodata',
-        element:<ViewBiodata/>
-      }
-    ]
-  }
+        path: "viewBiodata",
+        element: <ViewBiodata />,
+      },
+    ],
+  },
 ]);
 
 export default router;
