@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { Box, Skeleton } from "@mui/material";
 
 
 const PrivateRoute = ({ children }) => {
@@ -10,9 +11,11 @@ const PrivateRoute = ({ children }) => {
   }
   if (loading) {
     return (
-      <div className="w-24 mx-auto flex items-center h-screen">
-        <span className="loading loading-spinner text-secondary w-full"></span>
-      </div>
+      <Box sx={{ width: 400 ,mx:'auto',mt:'30px'}}>
+      <Skeleton  />
+      <Skeleton animation="wave" />
+      <Skeleton animation={false} />
+    </Box>
     );
   }
   return <Navigate to={"/login"} state={{from:location}} replace></Navigate>;

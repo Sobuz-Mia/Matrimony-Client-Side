@@ -7,6 +7,8 @@ import {
   TextField,
   Button,
   Typography,
+  Box,
+  Skeleton,
 } from "@mui/material";
 
 import useAuth from "../../hooks/useAuth";
@@ -20,19 +22,21 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Payment_API_Key);
 const Checkout = () => {
-  const { control, handleSubmit } = useForm();
+  const { control } = useForm();
   const axiosSecure = useAxiosSecure();
   const [singleBiodata, setSingleBiodata] = useState({});
   const { id } = useParams();
-  const { user } = useAuth();
   const [biodata, isLoading] = useUserBiodata();
-  console.log(biodata);
+  //   console.log(biodata);
 
   if (isLoading) {
-    <div className="w-24 mx-auto flex items-center h-screen">
-      <span className="loading loading-spinner text-secondary w-full"></span>
-    </div>;
+    <Box sx={{ width: 300 }}>
+      <Skeleton />
+      <Skeleton animation="wave" />
+      <Skeleton animation={false} />
+    </Box>;
   }
+  //   load single data
   useEffect(() => {
     const fetchData = async () => {
       const res = await axiosSecure.get(`/biodata/${id}`);
@@ -41,28 +45,11 @@ const Checkout = () => {
     fetchData();
   }, [axiosSecure, id, setSingleBiodata]);
 
-  console.log("single biodata", singleBiodata?.biodataId);
-  // Handle form submission logic
-  const onSubmit = (data) => {
-    console.log(data);
-    const biodataInfo = {
-      age: data.age,
-      biodataType: data.biodataType,
-      dateOfBirth: data.dateOfBirth,
-      fatherName: data.fatherName,
-      height: data.height,
-      motherName: data.motherName,
-      name: data.name,
-      email: user?.email,
-      occupation: data.occupation,
-      partnerHeight: data.partnerHeight,
-      partnerWeight: data.partnerWeight,
-      permanentDivision: data.permanentDivision,
-      photoUrl: data.photoUrl,
-      presentDivision: data.presentDivision,
-      race: data.race,
-      weight: data.weight,
-    };
+  // payment information
+  const paymentInfo = {
+    biodataid: singleBiodata?.biodataId,
+    selfBiodataId: biodata?.biodataId,
+    selfEmail: biodata?.email,
   };
 
   return (
@@ -73,83 +60,70 @@ const Checkout = () => {
       >
         Checkout your info
       </Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Card sx={{ border: "1px solid", width: "70%", mx: "auto" }}>
-              <CardContent>
-                {/* Biodata Type */}
-                <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
-                  {/* height*/}
-                  {singleBiodata?.biodataId && (
-                    <Controller
-                      name="Id"
-                      control={control}
-                      defaultValue={singleBiodata?.biodataId}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Biodata Id"
-                          fullWidth
-                          required
-                        />
-                      )}
-                    />
-                  )}
 
-                  {/* weight */}
-                  {biodata?.biodataId && (
-                    <Controller
-                      name="selfBiodataId"
-                      control={control}
-                      defaultValue={biodata?.biodataId}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Self BiodataId"
-                          fullWidth
-                          required
-                        />
-                      )}
-                    />
-                  )}
-                  {/* age */}
-                  {biodata?.email && (
-                    <Controller
-                      name="email"
-                      control={control}
-                      defaultValue={biodata?.email}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Email"
-                          fullWidth
-                          required
-                        />
-                      )}
-                    />
-                  )}
-                </Grid>
-                <Grid>
-                  <Elements stripe={stripePromise}>
-                    <CheckoutForm />
-                  </Elements>
-                </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Card sx={{ border: "1px solid", width: "70%", mx: "auto" }}>
+            <CardContent>
+              {/* Biodata Type */}
+              <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
+                {/* height*/}
+                {singleBiodata?.biodataId && (
+                  <Controller
+                    name="biodataId"
+                    control={control}
+                    defaultValue={singleBiodata?.biodataId}
+                    disabled
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Biodata Id"
+                        fullWidth
+                        required
+                      />
+                    )}
+                  />
+                )}
 
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  variant="outlined"
-                  color="secondary"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  Save And Publish Now
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
+                {/* weight */}
+                {biodata?.biodataId && (
+                  <Controller
+                    name="selfBiodataId"
+                    control={control}
+                    defaultValue={biodata?.biodataId}
+                    disabled
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="Self BiodataId"
+                        fullWidth
+                        required
+                      />
+                    )}
+                  />
+                )}
+                {/* age */}
+                {biodata?.email && (
+                  <Controller
+                    name="email"
+                    control={control}
+                    defaultValue={biodata?.email}
+                    disabled
+                    render={({ field }) => (
+                      <TextField {...field} label="Email" fullWidth required />
+                    )}
+                  />
+                )}
+              </Grid>
+              <Grid>
+                <Elements stripe={stripePromise}>
+                  <CheckoutForm paymentInfo={paymentInfo} />
+                </Elements>
+              </Grid>
+            </CardContent>
+          </Card>
         </Grid>
-      </form>
+      </Grid>
     </Container>
   );
 };
