@@ -1,5 +1,18 @@
-import { Container, Grid, Typography, List, ListItem } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Typography,
+  List,
+  ListItem,
+  Divider,
+} from "@mui/material";
 import { Outlet, NavLink as RouterNavLink } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import { ImProfile } from "react-icons/im";
+import { FaStreetView } from "react-icons/fa";
+import { MdContacts } from "react-icons/md";
+import { MdFavoriteBorder } from "react-icons/md";
+import { IoIosLogOut } from "react-icons/io";
 
 const Dashboard = () => {
   const sidebarStyle = {
@@ -13,7 +26,7 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <Grid container style={{display:'flex',gap:'10px'}}>
+      <Grid container style={{ display: "flex", gap: "10px" }}>
         {/* Sidebar */}
         <Grid item style={sidebarStyle}>
           <Typography
@@ -28,69 +41,68 @@ const Dashboard = () => {
           </Typography>
           <Typography
             variant="subtitle2"
-            sx={{ letterSpacing: "5px", marginBottom: "1rem" ,width:'full'}}
+            sx={{ letterSpacing: "5px", marginBottom: "1rem", width: "full" }}
           >
-            Find your soulmate
+            Find your Partner
           </Typography>
           <List sx={{ padding: 0 }}>
-            <ListItem  sx={{ marginBottom: "1rem" }}>
-              <RouterNavLink
-                to="/"
-                className={({ isActive }) =>
-                isActive ?"active" : "navLink" 
-              }
-              >
-                Home
-              </RouterNavLink>
-            </ListItem>
-            <ListItem  sx={{ marginBottom: "1rem" }}>
+            <ListItem sx={{ marginBottom: "1rem" }}>
               <RouterNavLink
                 to="/dashboard/editBiodata"
-                className={({ isActive }) =>
-                  isActive ?"active" : "navLink" 
-                }
+                className={({ isActive }) => (isActive ? "active" : "navLink")}
+                style={{ display: "flex", alignItems: "center", gap: "5px" }}
               >
+                <ImProfile />
                 Edit Biodata
               </RouterNavLink>
             </ListItem>
             <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
               <RouterNavLink
                 to="/dashboard/viewBiodata"
-             
-                className={({ isActive }) =>
-                isActive ?"active" : "navLink" 
-              }
+                className={({ isActive }) => (isActive ? "active" : "navLink")}
+                style={{ display: "flex", alignItems: "center", gap: "5px" }}
               >
+                <FaStreetView />
                 View Biodata
               </RouterNavLink>
             </ListItem>
             <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
               <RouterNavLink
-                to="/dashboard/manageBooking"
-                className={({ isActive }) =>
-                  isActive ?"active" : "navLink" 
-                }
+                to="/dashboard/contact-request"
+                className={({ isActive }) => (isActive ? "active" : "navLink")}
+                style={{ display: "flex", alignItems: "center", gap: "5px" }}
               >
-                My Contact Request
+                <MdContacts />
+                Contact Request
+              </RouterNavLink>
+            </ListItem>
+            <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
+              <RouterNavLink
+                to="/dashboard/favourites"
+                className={({ isActive }) => (isActive ? "active" : "navLink")}
+                style={{ display: "flex", alignItems: "center", gap: "5px" }}
+              >
+                <MdFavoriteBorder />
+                Favorite Biodata
+              </RouterNavLink>
+            </ListItem>
+            <Divider variant="middle" />
+            <ListItem sx={{ marginBottom: "1rem" }}>
+              <RouterNavLink
+                to="/"
+                className={({ isActive }) => (isActive ? "active" : "navLink")}
+                style={{ display: "flex", alignItems: "center", gap: "5px" }}
+              >
+                <HomeIcon />
+                Home
               </RouterNavLink>
             </ListItem>
             <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
               <RouterNavLink
                 to="/dashboard/allUsers"
-                className={({ isActive }) =>
-                isActive ?"active" : "navLink" 
-              }
+                className={({ isActive }) => (isActive ? "active" : "navLink")}
               >
-                Favourites Biodata
-              </RouterNavLink>
-            </ListItem>
-            <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
-              <RouterNavLink
-                to="/dashboard/allUsers"
-                className={({ isActive }) =>
-                  isActive ?"active" : "navLink" 
-                }
-              >
+                <IoIosLogOut />
                 Logout
               </RouterNavLink>
             </ListItem>
@@ -98,7 +110,7 @@ const Dashboard = () => {
         </Grid>
 
         {/* Content */}
-        <Grid item style={{flexGrow:1}}>
+        <Grid item style={{ flexGrow: 1 }}>
           <Outlet />
         </Grid>
       </Grid>

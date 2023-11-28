@@ -5,13 +5,11 @@ import {
   Card,
   CardContent,
   TextField,
-  Button,
   Typography,
   Box,
   Skeleton,
 } from "@mui/material";
 
-import useAuth from "../../hooks/useAuth";
 import useUserBiodata from "../../hooks/useUserBiodata";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -47,11 +45,12 @@ const Checkout = () => {
 
   // payment information
   const paymentInfo = {
+
     biodataid: singleBiodata?.biodataId,
     selfBiodataId: biodata?.biodataId,
     selfEmail: biodata?.email,
   };
-
+console.log(singleBiodata)
   return (
     <Container>
       <Typography

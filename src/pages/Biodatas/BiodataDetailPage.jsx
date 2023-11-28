@@ -38,9 +38,19 @@ const BiodataDetailPage = () => {
       .get(`/check-user-premium?email=${user?.email}&id=${biodata?.biodataId}`)
       .then((res) => setPremiumData(res.data));
   }, [axiosSecure, id, biodata.biodataType, user?.email, biodata?.biodataId]);
+
   //  handle add to favourites data
+  
+  
   const handleAddToFavourites = () => {
-    axiosSecure.post("/addToFavourite-collection", biodata).then((res) => {
+    const biodataInfo = {
+      name:biodata?.name,
+      biodataId:biodata?.biodataId,
+      permanentAddress: biodata?.permanentDivision,
+      occupation:biodata?.occupation,
+      userEmail:user?.email
+    }
+    axiosSecure.post("/addToFavourite-collection", biodataInfo).then((res) => {
       if (res.data.insertedId) {
         Swal.fire({
           position: "center",
