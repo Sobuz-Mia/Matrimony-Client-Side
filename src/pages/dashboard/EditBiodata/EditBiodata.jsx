@@ -22,10 +22,10 @@ const EditBiodata = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
-//   get existing user biodata
+  //   get existing user biodata
   useEffect(() => {
     axiosSecure.get(`/singleBiodata?email=${user?.email}`).then((res) => {
-      setExistingBiodata(res.data);
+      setExistingBiodata(res?.data);
       setIsLoading(false);
     });
   }, [axiosSecure, user?.email]);
@@ -37,11 +37,9 @@ const EditBiodata = () => {
       </div>
     );
   }
-
-  // Handle form submission logic 
+  // Handle form submission logic
   const onSubmit = (data) => {
     
-    console.log(data);
     const biodataInfo = {
       age: data.age,
       biodataType: data.biodataType,
@@ -50,7 +48,6 @@ const EditBiodata = () => {
       height: data.height,
       motherName: data.motherName,
       name: data.name,
-      email: user?.email,
       occupation: data.occupation,
       partnerHeight: data.partnerHeight,
       partnerWeight: data.partnerWeight,
@@ -59,7 +56,10 @@ const EditBiodata = () => {
       presentDivision: data.presentDivision,
       race: data.race,
       weight: data.weight,
+      contactEmail:data.email,
+      phoneNumber:data?.phoneNumber
     };
+   
     // create biodata
     axiosSecure.post("/edit-create/biodata", biodataInfo).then((res) => {
       if (res.data.insertedId) {
@@ -74,18 +74,20 @@ const EditBiodata = () => {
       }
     });
     // update biodata
-    axiosSecure.patch(`/update/biodata/${existingBiodata._id}`,biodataInfo).then(res=>{
-        if(res.data.modifiedCount>0){
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: `${user?.displayName} Your biodata Updated Successfully`,
-                showConfirmButton: false,
-                timer: 1500,
-              }); 
+    axiosSecure
+      .patch(`/update/biodata/${existingBiodata?._id}`, biodataInfo)
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `${user?.displayName} Your biodata Updated Successfully`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
-        console.log(res.data)
-    })
+        console.log(res.data);
+      });
   };
 
   return (
@@ -105,58 +107,66 @@ const EditBiodata = () => {
                   <CardContent>
                     {/* Biodata Type */}
                     <Grid sx={{ display: "flex", gap: "10px" }}>
-                      <Controller
-                        name="biodataType"
-                        control={control}
-                        defaultValue={existingBiodata.biodataType}
-                        render={({ field }) => (
-                          <TextField
-                            {...field}
-                            label="Biodata Type"
-                            select
-                            fullWidth
-                            required
-                            sx={{ mb: 2 }}
-                          >
-                            <MenuItem value="male">Male</MenuItem>
-                            <MenuItem value="female">Female</MenuItem>
-                          </TextField>
-                        )}
-                      />
+                      {existingBiodata?.biodataType && (
+                        <Controller
+                          name="biodataType"
+                          control={control}
+                          defaultValue={existingBiodata.biodataType}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              label="Biodata Type"
+                              select
+                              fullWidth
+                              required
+                              sx={{ mb: 2 }}
+                            >
+                              <MenuItem value="male">Male</MenuItem>
+                              <MenuItem value="female">Female</MenuItem>
+                            </TextField>
+                          )}
+                        />
+                      )}
 
                       {/* Name */}
-                      <Controller
-                        name="name"
-                        control={control}
-                        defaultValue={existingBiodata?.name}
-                        render={({ field }) => (
-                          <TextField
-                            {...field}
-                            label="Name"
-                            fullWidth
-                            required
-                          />
-                        )}
-                      />
+                      {existingBiodata?.name && (
+                        <Controller
+                          name="name"
+                          control={control}
+                          defaultValue={existingBiodata?.name}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              label="Name"
+                              fullWidth
+                              required
+                            />
+                          )}
+                        />
+                      )}
                     </Grid>
                     <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
                       {/* photo */}
-                      <Controller
-                        name="photoUrl"
-                        control={control}
-                        defaultValue={existingBiodata?.photoUrl}
-                        render={({ field }) => (
-                          <TextField
-                            {...field}
-                            label="photo url"
-                            required
-                            style={{ width: "50%" }}
-                          />
-                        )}
-                      />
+                      {existingBiodata?.photoUrl && (
+                        <Controller
+                          name="photoUrl"
+                          control={control}
+                          defaultValue={existingBiodata?.photoUrl}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              label="photo url"
+                              required
+                              style={{ width: "50%" }}
+                            />
+                          )}
+                        />
+                      )}
 
                       {/* date */}
-                      <Controller
+                      {
+                        existingBiodata?.dataOfBirth && 
+                        <Controller
                         name="dateOfBirth"
                         control={control}
                         defaultValue={existingBiodata?.dateOfBirth}
@@ -168,11 +178,13 @@ const EditBiodata = () => {
                           />
                         )}
                       />
+                      }
                     </Grid>
 
                     <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
                       {/* height*/}
-                      <Controller
+                      { existingBiodata?.height &&
+                        <Controller
                         name="height"
                         control={control}
                         defaultValue={existingBiodata?.height}
@@ -184,10 +196,11 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
 
                       {/* weight */}
-                      <Controller
+                      {existingBiodata?.weight &&
+                        <Controller
                         name="weight"
                         control={control}
                         defaultValue={existingBiodata?.weight}
@@ -199,9 +212,10 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
                       {/* age */}
-                      <Controller
+                      {existingBiodata?.age &&
+                        <Controller
                         name="age"
                         control={control}
                         defaultValue={existingBiodata?.age}
@@ -213,11 +227,12 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
                     </Grid>
                     <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
                       {/* occupation*/}
-                      <Controller
+                      {existingBiodata?.occupation &&
+                        <Controller
                         name="occupation"
                         control={control}
                         defaultValue={existingBiodata?.occupation}
@@ -229,10 +244,11 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
 
                       {/* race */}
-                      <Controller
+                      {existingBiodata?.race &&
+                        <Controller
                         name="race"
                         control={control}
                         defaultValue={existingBiodata?.race}
@@ -244,11 +260,12 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
                     </Grid>
                     <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
                       {/* occupation*/}
-                      <Controller
+                      {existingBiodata?.fatherName &&
+                        <Controller
                         name="fatherName"
                         control={control}
                         defaultValue={existingBiodata?.fatherName}
@@ -260,10 +277,11 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
 
                       {/* race */}
-                      <Controller
+                      {existingBiodata?.motherName &&
+                        <Controller
                         name="motherName"
                         control={control}
                         defaultValue={existingBiodata?.motherName}
@@ -275,11 +293,12 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
                     </Grid>
                     <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
                       {/* permanent division */}
-                      <Controller
+                      {existingBiodata?.permanentDivision &&
+                        <Controller
                         name="permanentDivision"
                         control={control}
                         defaultValue={existingBiodata?.permanentDivision}
@@ -291,10 +310,11 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
 
                       {/* present division */}
-                      <Controller
+                      {existingBiodata?.presentDivision &&
+                        <Controller
                         name="presentDivision"
                         control={control}
                         defaultValue={existingBiodata?.presentDivision}
@@ -306,11 +326,12 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
                     </Grid>
                     <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
                       {/*partner height */}
-                      <Controller
+                      {existingBiodata?.partnerHeight &&
+                        <Controller
                         name="partnerHeight"
                         control={control}
                         defaultValue={existingBiodata?.partnerHeight}
@@ -322,10 +343,11 @@ const EditBiodata = () => {
                             required
                           />
                         )}
-                      />
+                      />}
 
                       {/* partner weight */}
-                      <Controller
+                      {existingBiodata?.partnerWeight &&
+                        <Controller
                         name="partnerWeight"
                         control={control}
                         defaultValue={existingBiodata?.partnerWeight}
@@ -333,6 +355,40 @@ const EditBiodata = () => {
                           <TextField
                             {...field}
                             label="Expected Partner Weight"
+                            fullWidth
+                            required
+                          />
+                        )}
+                      />}
+                    </Grid>
+                    <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
+                      {/*partner height */}
+                      {user?.email && (
+                        <Controller
+                          name="email"
+                          control={control}
+                          defaultValue={user?.email}
+                          disabled
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              label="Contact Email"
+                              fullWidth
+                              required
+                            />
+                          )}
+                        />
+                      )}
+
+                      {/* partner weight */}
+                      <Controller
+                        name="phoneNumber"
+                        control={control}
+                        defaultValue={existingBiodata?.phoneNumber}
+                        render={({ field }) => (
+                          <TextField
+                            {...field}
+                            label="Phone Number"
                             fullWidth
                             required
                           />
@@ -598,6 +654,39 @@ const EditBiodata = () => {
                           <TextField
                             {...field}
                             label="Expected Partner Weight"
+                            fullWidth
+                            required
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid sx={{ display: "flex", gap: "10px", mb: 2 }}>
+                      {/*partner height */}
+                      {user?.email && (
+                        <Controller
+                          name="email"
+                          control={control}
+                          defaultValue={user?.email}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              label="Contact Email"
+                              fullWidth
+                              required
+                            />
+                          )}
+                        />
+                      )}
+
+                      {/* partner weight */}
+                      <Controller
+                        name="phoneNumber"
+                        control={control}
+                        defaultValue={''}
+                        render={({ field }) => (
+                          <TextField
+                            {...field}
+                            label="Phone Number"
                             fullWidth
                             required
                           />

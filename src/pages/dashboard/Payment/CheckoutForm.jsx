@@ -14,7 +14,7 @@ const CheckoutForm = ({ paymentInfo }) => {
   const [transactionId, setTransactionId] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-  const totalPrice = 5000;
+  const totalPrice = 500;
 
   useEffect(() => {
     if (totalPrice > 0) {
@@ -84,6 +84,9 @@ const CheckoutForm = ({ paymentInfo }) => {
             biodataId: paymentInfo?.biodataid,
             date: new Date(), //need convert data to utc for international client
             status: "pending",
+            name:paymentInfo?.name,
+            contactEmail:paymentInfo?.contactEmail,
+            mobileNumber:paymentInfo?.mobileNumber,
           };
           await axioSecure.post("/payment", paymentDetails).then((res) => {
             // console.log(res.data);

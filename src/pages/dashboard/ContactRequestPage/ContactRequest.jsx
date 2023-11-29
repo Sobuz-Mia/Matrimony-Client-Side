@@ -6,22 +6,23 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import useAuth from "../../../hooks/useAuth";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import { Typography } from "@mui/material";
 
 export default function ContactRequest() {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const { data: favoritesData = [], refetch } = useQuery({
-    queryKey: ["favoritesData"],
+  const { data: contactRequestData = {}, refetch } = useQuery({
+    queryKey: ["contactRequestData"],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/favorite-data?email=${user?.email}`);
+      const res = await axiosSecure.get(`/contact-request?email=${user?.email}`);
       return res?.data;
     },
   });
-  const handleDeleteFavorite = (id) => {
+  const handleDeleteContactRequest = (id) => {
    
     Swal.fire({
       title: "Are you sure?",
@@ -33,7 +34,7 @@ export default function ContactRequest() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/delete-favorite/${id}`).then((res) => {
+        axiosSecure.delete(`/contact-request/delete/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire({
@@ -68,13 +69,19 @@ export default function ContactRequest() {
               align="center"
               style={{ fontSize: "18px", fontWeight: "bold" }}
             >
-              Permanent Address
+             Status
             </TableCell>
             <TableCell
               align="center"
               style={{ fontSize: "18px", fontWeight: "bold" }}
             >
-              Occupation
+              Mobile Number
+            </TableCell>
+            <TableCell
+              align="center"
+              style={{ fontSize: "18px", fontWeight: "bold" }}
+            >
+              Contact Email
             </TableCell>
             <TableCell
               align="center"
@@ -85,7 +92,7 @@ export default function ContactRequest() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {favoritesData.map((item, index) => (
+          {contactRequestData.length >0 && contactRequestData?.map((item, index) => (
             <TableRow key={item._id}>
               <TableCell component="th" scope="row">
                 {index + 1}
@@ -94,10 +101,11 @@ export default function ContactRequest() {
                 {item?.name}
               </TableCell>
               <TableCell align="center">{item?.biodataId}</TableCell>
-              <TableCell align="center">{item?.permanentAddress}</TableCell>
-              <TableCell align="center">{item?.occupation}</TableCell>
+              <TableCell align="center">{item?.status === "approved" ? <Typography variant="h5" fontWeight={'bold'} color={'green'}>{item.status}</Typography> : <Typography variant="h6" color={'secondary'}>{item.status}</Typography>}</TableCell>
+              <TableCell align="center">{item.status === "approved" ? item.mobileNumber : "Your request is pending"}</TableCell>
+              <TableCell align="center">{item.status === "approved" ? item.contactEmail : "Your request is pending"}</TableCell>
               <TableCell
-                onClick={() => handleDeleteFavorite(item._id)}
+                onClick={() => handleDeleteContactRequest(item._id)}
                 align="center"
                 style={{ color: "red" }}
               >

@@ -13,6 +13,7 @@ import Checkout from "../pages/Checkout/Checkout";
 import PrivateRoute from "./PrivateRoute";
 import Favourites from "../pages/dashboard/FavouritesPage/Favourites";
 import ContactRequest from "../pages/dashboard/ContactRequestPage/ContactRequest";
+import AdminDashboard from "../pages/dashboard/AdminDashboard/AdminDashboard";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path:'contact-request',
         element:<ContactRequest/>
+      },
+      {
+        path:'adminDashboard',
+        element:<AdminDashboard/>
       }
     ],
   },

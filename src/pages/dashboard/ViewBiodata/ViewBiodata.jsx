@@ -55,7 +55,7 @@ const ViewBiodata = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, Request to premium!",
     }).then((result) => {
       if (result.isConfirmed) {
         // create biodata
@@ -74,7 +74,7 @@ const ViewBiodata = () => {
       }
     });
   };
-  console.log(existingBiodata);
+ 
   return (
     <Container>
       <Typography
@@ -316,7 +316,7 @@ const ViewBiodata = () => {
                   <Controller
                     name="contactEmail"
                     control={control}
-                    defaultValue={""}
+                    defaultValue={existingBiodata?.contactEmail}
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -331,7 +331,7 @@ const ViewBiodata = () => {
                   <Controller
                     name="phoneNumber"
                     control={control}
-                    defaultValue={""}
+                    defaultValue={existingBiodata?.phoneNumber}
                     render={({ field }) => (
                       <TextField {...field} label="Phone" fullWidth required />
                     )}

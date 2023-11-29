@@ -45,12 +45,17 @@ const Checkout = () => {
 
   // payment information
   const paymentInfo = {
-
-    biodataid: singleBiodata?.biodataId,
-    selfBiodataId: biodata?.biodataId,
-    selfEmail: biodata?.email,
+    biodataid: singleBiodata?.biodataId || '',
+    selfBiodataId: biodata?.biodataId || '',
+    selfEmail: biodata?.contactEmail || '',
+    name:singleBiodata?.name || '',
+    contactEmail:biodata?.contactEmail || '',
+    mobileNumber:biodata?.phoneNumber || '',
   };
-console.log(singleBiodata)
+  console.log("single biodata",singleBiodata)
+  console.log("user biodata",singleBiodata)
+  console.log("paymentInfo",paymentInfo)
+
   return (
     <Container>
       <Typography
