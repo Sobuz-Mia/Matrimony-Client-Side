@@ -14,6 +14,7 @@ import PrivateRoute from "./PrivateRoute";
 import Favourites from "../pages/dashboard/FavouritesPage/Favourites";
 import ContactRequest from "../pages/dashboard/ContactRequestPage/ContactRequest";
 import AdminDashboard from "../pages/dashboard/AdminDashboard/AdminDashboard";
+import ManageUser from "../pages/dashboard/ManageUser/ManageUser";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path:'adminDashboard',
         element:<AdminDashboard/>
+      },
+      {
+        path:'manage-user',
+        element:<ManageUser/>
       }
     ],
   },

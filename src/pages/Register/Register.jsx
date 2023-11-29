@@ -16,9 +16,11 @@ import GoogleIcon from "@mui/icons-material/Google";
 import useAuth from "./../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useRef } from "react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 export default function Register() {
   const { createUser, handleUpdateProfile } = useAuth();
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const formRef = useRef(null);
   // handle input filed value
@@ -33,22 +35,30 @@ export default function Register() {
       password: data.get("password"),
       photoUrl: data.get("photo"),
     };
-    
+
     try {
       // create user
       const result = await createUser(userInfo.email, userInfo.password);
       // update user
       if (result.user) {
         handleUpdateProfile(userInfo.name, userInfo.photoUrl).then(() => {
-          formRef.current.reset();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Your account created successfully",
-            showConfirmButton: false,
-            timer: 1500,
+          const user = {
+            email: userInfo.email,
+            userName: userInfo.name,
+          };
+          axiosPublic.post("/users", user).then((res) => {
+            formRef.current.reset();
+            if (res.data.insertedId) {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Your account created successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            }
           });
-          navigate("/");
         });
       } else {
         console.log("update not complete");
@@ -159,16 +169,6 @@ export default function Register() {
                 <p>
                   Already have an account? <Link to={"/login"}>Login</Link>
                 </p>
-              </Grid>
-              <Grid style={{ textAlign: "center" }}>
-                <p>Or Login With</p>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  sx={{ mb: 5, width: "100%" }}
-                >
-                  <GoogleIcon />
-                </Button>
               </Grid>
             </Box>
           </Box>

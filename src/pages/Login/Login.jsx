@@ -13,13 +13,15 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useRef } from "react";
+import useAxiosPublic from './../../hooks/useAxiosPublic';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const { loggedInUser } = useAuth();
+  const { loggedInUser, googleLogIn } = useAuth();
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const formRef = useRef(null);
   const handleSubmit = (event) => {
@@ -39,7 +41,7 @@ export default function Login() {
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate('/')
+          navigate("/");
         }
       })
       .catch((error) => {
@@ -52,7 +54,25 @@ export default function Login() {
         }
       });
   };
+  const handleGoogleLogin = () => {
+    googleLogIn().then((result) => {
+      const userInfo = {
+        email: result.user?.email,
+        userName: result.user?.displayName,
+      };
 
+      axiosPublic.post("/users", userInfo).then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "user log in successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
+      });
+    });
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -131,6 +151,7 @@ export default function Login() {
                   variant="outlined"
                   color="secondary"
                   sx={{ mb: 5, width: "100%" }}
+                  onClick={handleGoogleLogin}
                 >
                   <GoogleIcon />
                 </Button>

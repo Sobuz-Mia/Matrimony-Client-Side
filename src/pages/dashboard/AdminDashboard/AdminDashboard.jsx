@@ -20,19 +20,21 @@ const AdminDashboard = () => {
       return res?.data;
     },
   });
-  console.log(allCountData);
+ 
   return (
     <>
       {allCountData?.totalRevenue && (
         <Paper
-          elevation={3}
+          elevation={2}
           sx={{
             maxWidth: "fit-Content",
             my: "5px",
             padding: "5px",
+            fontWeight:'bold',
+            
           }}
         >
-          <Typography color={"secondary"}>
+          <Typography color={"secondary"} sx={{fontSize:'25px'}}>
             Total Revenue = {allCountData?.totalRevenue} Tk Only
           </Typography>
         </Paper>

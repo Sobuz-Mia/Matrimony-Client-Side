@@ -52,9 +52,7 @@ const Checkout = () => {
     contactEmail:biodata?.contactEmail || '',
     mobileNumber:biodata?.phoneNumber || '',
   };
-  console.log("single biodata",singleBiodata)
-  console.log("user biodata",singleBiodata)
-  console.log("paymentInfo",paymentInfo)
+
 
   return (
     <Container>
