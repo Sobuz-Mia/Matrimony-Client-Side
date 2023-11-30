@@ -15,6 +15,8 @@ import Favourites from "../pages/dashboard/FavouritesPage/Favourites";
 import ContactRequest from "../pages/dashboard/ContactRequestPage/ContactRequest";
 import AdminDashboard from "../pages/dashboard/AdminDashboard/AdminDashboard";
 import ManageUser from "../pages/dashboard/ManageUser/ManageUser";
+import ApprovedPremium from "../pages/dashboard/ApprovedPremium/ApprovedPremium";
+import ApprovedContactRequest from "../pages/dashboard/ApprovedContactRequest/ApprovedContactRequest";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +84,14 @@ const router = createBrowserRouter([
       {
         path:'manage-user',
         element:<ManageUser/>
+      },
+      {
+        path:'approved-premium',
+        element:<ApprovedPremium/>
+      },
+      {
+        path:'approved-contact-request',
+        element:<ApprovedContactRequest/>
       }
     ],
   },

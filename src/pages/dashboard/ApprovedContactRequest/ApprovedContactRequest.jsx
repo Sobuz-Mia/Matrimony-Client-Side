@@ -6,47 +6,22 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useQuery } from "@tanstack/react-query";
-import { TbPremiumRights } from "react-icons/tb";
 import Swal from "sweetalert2";
-import { FaEdit } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Button } from "@mui/material";
 
-export default function ManageUser() {
+export default function ApprovedContactRequest() {
   const axiosSecure = useAxiosSecure();
 
-  const { data: users = [], refetch } = useQuery({
-    queryKey: ["users"],
+  const { data: contactRequestData = [], refetch } = useQuery({
+    queryKey: ["ContactData"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
+      const res = await axiosSecure.get("/all-contact/requested-data");
       return res?.data;
     },
   });
-  const handleMakeAdmin = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Update it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axiosSecure.patch(`/user/${id}`).then((res) => {
-          if (res.data.modifiedCount > 0) {
-            refetch();
-            Swal.fire({
-              title: "Update!",
-              text: "User update to Admin.",
-              icon: "success",
-              timer: 1500,
-            });
-          }
-        });
-      }
-    });
-  };
-  const handlePremimuUser = (email) => {
+ 
+  const handleStatusUpdate = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to convert this!",
@@ -54,15 +29,15 @@ export default function ManageUser() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Convert to premium!",
+      confirmButtonText: "Yes, update it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.patch(`/user/premium?email=${email}`).then((res) => {
+        axiosSecure.patch(`/update-status/${id}`).then((res) => {
           if (res.data.modifiedCount > 0) {
             refetch();
             Swal.fire({
               title: "Updated!",
-              text: "Your file has been update to Premium user.",
+              text: "Your file has been update.",
               icon: "success",
               timer: 1500,
             });
@@ -92,40 +67,42 @@ export default function ManageUser() {
               align="center"
               style={{ fontSize: "18px", fontWeight: "bold" }}
             >
-              Make Admin
+              Biodata Id
             </TableCell>
 
             <TableCell
               align="center"
               style={{ fontSize: "18px", fontWeight: "bold" }}
             >
-              Make Premium
+             Approve Contact 
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((item, index) => (
+          {contactRequestData.map((item, index) => (
             <TableRow key={item._id}>
               <TableCell component="th" scope="row">
                 {index + 1}
               </TableCell>
               <TableCell component="th" scope="row">
-                {item?.userName}
+                {item?.name}
               </TableCell>
               <TableCell align="center">{item?.email}</TableCell>
+              <TableCell align="center">{item?.biodataId}</TableCell>
               <TableCell
-                onClick={() => handleMakeAdmin(item?._id)}
+                onClick={() => handleStatusUpdate(item?.biodataId)}
                 align="center"
-                sx={{ fontSize: "20px" }}
+               
               >
-                <FaEdit />
-              </TableCell>
-              <TableCell
-                onClick={() => handlePremimuUser(item?.email)}
-                align="center"
-                style={{ color: "red", fontSize: "20px" }}
-              >
-                <TbPremiumRights />
+                <Button  style={{
+                  color: item.status === "approved" ? "green" : "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  textTransform:'capitalize'
+                }}>
+                  {item.status}
+                </Button>
               </TableCell>
             </TableRow>
           ))}

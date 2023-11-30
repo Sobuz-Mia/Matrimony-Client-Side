@@ -13,6 +13,7 @@ import { FaStreetView, FaUser } from "react-icons/fa";
 import { MdContacts } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
   const sidebarStyle = {
@@ -23,7 +24,7 @@ const Dashboard = () => {
     textAlign: "center",
     color: "#272727",
   };
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
   return (
     <Container>
       {isAdmin ? (
@@ -73,7 +74,7 @@ const Dashboard = () => {
               </ListItem>
               <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
                 <RouterNavLink
-                  to="/dashboard/contact-request"
+                  to="/dashboard/approved-premium"
                   className={({ isActive }) =>
                     isActive ? "active" : "navLink"
                   }
@@ -85,7 +86,7 @@ const Dashboard = () => {
               </ListItem>
               <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
                 <RouterNavLink
-                  to="/dashboard/favourites"
+                  to="/dashboard/approved-contact-request"
                   className={({ isActive }) =>
                     isActive ? "active" : "navLink"
                   }
