@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import GoogleIcon from "@mui/icons-material/Google";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useRef } from "react";
@@ -23,6 +23,7 @@ export default function Login() {
   const { loggedInUser, googleLogIn } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  const location = useLocation();
   const formRef = useRef(null);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -41,7 +42,7 @@ export default function Login() {
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate("/");
+          navigate(location?.state ? location.state : "/");
         }
       })
       .catch((error) => {
