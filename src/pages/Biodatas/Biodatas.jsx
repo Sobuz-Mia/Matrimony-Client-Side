@@ -5,14 +5,39 @@ import BiodataCard from "./BiodataCard";
 
 
 const Biodatas = () => {
-  const [biodata, setBiodata] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [biodata,setBiodata] = useState([]);
+  const [displayedBiodata, setDisplayedBiodata] = useState([]);
   const axiosSecure = useAxiosSecure();
+
+  const handleShowAllBiodata = () => {
+    setDisplayedBiodata(biodata);
+  };
+ 
   const handleSearch = (e) => {
     console.log(e.target.value);
+    setSearchInput(e.target.value.toLowerCase())
+
   };
   useEffect(() => {
-    axiosSecure.get("/biodatas").then((res) => setBiodata(res.data));
-  }, [axiosSecure]);
+    axiosSecure.get("/biodatas").then((res) => {
+      setBiodata(res.data)
+      const filteredBiodata = res.data.filter((item) => {
+        const searchTerms = [
+          item.age,
+          item.biodataType,
+          item.permanentDivision,
+        ].map(String);
+
+        const searchString = searchTerms.join(" ").toLowerCase();
+        return searchString.includes(searchInput);
+      });
+
+      setDisplayedBiodata(filteredBiodata);
+    });
+  }, [axiosSecure,searchInput]);
+ 
+
   return (
     <Container maxWidth="lg" sx={{ mx: "auto" }}>
       <form>
@@ -20,7 +45,8 @@ const Biodatas = () => {
         <Grid sx={{ display: "flex", gap: "10px" }}>
           <input
             onChange={handleSearch}
-            type="search"
+            type="text"
+            value={searchInput}
             style={{
               padding: "10px",
               borderRadius: "5px",
@@ -34,13 +60,14 @@ const Biodatas = () => {
             variant="outlined"
             color="secondary"
             sx={{ textTransform: "initial" }}
+            onClick={handleShowAllBiodata}
           >
             All Created Biodata
           </Button>
         </Grid>
       </form>
       <Grid container spacing={2}>
-      {biodata.map((biodata) => (
+      {displayedBiodata.map((biodata) => (
         <Grid key={biodata._id} item xs={12} md={4}>
           <BiodataCard biodata={biodata} />
         </Grid>

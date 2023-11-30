@@ -1,5 +1,7 @@
 import { Container, Typography, Grid, Paper } from "@mui/material";
-import CountUp from 'react-countup';
+import CountUp from "react-countup";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const counterSectionStyle = {
   background: "#f4f4f4",
@@ -14,6 +16,14 @@ const counterCardStyle = {
 };
 
 const SuccessCounterSection = () => {
+  const axiosPublic = useAxiosPublic();
+  const { data: counterData = {} } = useQuery({
+    queryKey: ["counter"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/count-data");
+      return res?.data;
+    },
+  });
   return (
     <div style={counterSectionStyle}>
       <Container maxWidth="lg">
@@ -29,7 +39,7 @@ const SuccessCounterSection = () => {
               </Typography>
               <Typography variant="h4">
                 <CountUp
-                  end={8760000}
+                  end={counterData?.totalBio}
                   duration={5}
                   className="text-2xl font-semibold"
                 />
@@ -41,7 +51,13 @@ const SuccessCounterSection = () => {
               <Typography variant="h6" gutterBottom>
                 Girls Biodatas
               </Typography>
-              <Typography variant="h4">500</Typography>
+              <Typography variant="h4">
+                <CountUp
+                  end={counterData?.femaleData}
+                  duration={5}
+                  className="text-2xl font-semibold"
+                />
+              </Typography>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={3}>
@@ -49,7 +65,13 @@ const SuccessCounterSection = () => {
               <Typography variant="h6" gutterBottom>
                 Boys Biodatas
               </Typography>
-              <Typography variant="h4">500</Typography>
+              <Typography variant="h4">
+                <CountUp
+                  end={counterData?.maleData}
+                  duration={5}
+                  className="text-2xl font-semibold"
+                />
+              </Typography>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={3} offset={2}>
@@ -57,7 +79,13 @@ const SuccessCounterSection = () => {
               <Typography variant="h6" gutterBottom>
                 Marriages Completed
               </Typography>
-              <Typography variant="h4">200</Typography>
+              <Typography variant="h4">
+                <CountUp
+                  end={counterData?.completeMarried}
+                  duration={5}
+                  className="text-2xl font-semibold"
+                />
+              </Typography>
             </Paper>
           </Grid>
         </Grid>

@@ -34,7 +34,11 @@ const router = createBrowserRouter([
       },
       {
         path: "biodatas/detailsPage/:id",
-        element: <BiodataDetailPage />,
+        element: (
+          <PrivateRoute>
+            <BiodataDetailPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "checkout/:id",
@@ -74,25 +78,25 @@ const router = createBrowserRouter([
         element: <Favourites />,
       },
       {
-        path:'contact-request',
-        element:<ContactRequest/>
+        path: "contact-request",
+        element: <ContactRequest />,
       },
       {
-        path:'adminDashboard',
-        element:<AdminDashboard/>
+        path: "adminDashboard",
+        element: <AdminDashboard />,
       },
       {
-        path:'manage-user',
-        element:<ManageUser/>
+        path: "manage-user",
+        element: <ManageUser />,
       },
       {
-        path:'approved-premium',
-        element:<ApprovedPremium/>
+        path: "approved-premium",
+        element: <ApprovedPremium />,
       },
       {
-        path:'approved-contact-request',
-        element:<ApprovedContactRequest/>
-      }
+        path: "approved-contact-request",
+        element: <ApprovedContactRequest />,
+      },
     ],
   },
 ]);

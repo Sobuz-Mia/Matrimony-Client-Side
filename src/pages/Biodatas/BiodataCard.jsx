@@ -23,7 +23,7 @@ const   BiodataCard = ({ biodata }) => {
           Biodata ID: {biodata.biodataId}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Biodata Type: {biodata.gender === "male" ? "Male" : "Female"}
+          Biodata Type: {biodata.biodataType === "male" ? "Male" : "Female"}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Permanent Division: {biodata.permanentDivision}

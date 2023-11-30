@@ -6,7 +6,7 @@ import {
   ListItem,
   Divider,
 } from "@mui/material";
-import { Outlet, NavLink as RouterNavLink } from "react-router-dom";
+import { Outlet, NavLink as RouterNavLink, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import { ImProfile } from "react-icons/im";
 import { FaStreetView, FaUser } from "react-icons/fa";
@@ -14,8 +14,12 @@ import { MdContacts } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import useAdmin from "../hooks/useAdmin";
+import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
+    const {loggedOut} = useAuth();
+    const navigate = useNavigate();
   const sidebarStyle = {
     width: "18rem",
     minHeight: "100vh",
@@ -25,6 +29,18 @@ const Dashboard = () => {
     color: "#272727",
   };
   const [isAdmin] = useAdmin();
+  const handleLogout = () => {
+    loggedOut().then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "User log out successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+      navigate('/')
+  };
   return (
     <Container>
       {isAdmin ? (
@@ -56,7 +72,7 @@ const Dashboard = () => {
                   }
                   style={{ display: "flex", alignItems: "center", gap: "5px" }}
                 >
-                  <FaUser/>
+                  <FaUser />
                   Admin Dashboard
                 </RouterNavLink>
               </ListItem>
@@ -111,10 +127,10 @@ const Dashboard = () => {
               </ListItem>
               <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
                 <RouterNavLink
-                  to="/dashboard/allUsers"
                   className={({ isActive }) =>
                     isActive ? "active" : "navLink"
                   }
+                  onClick={handleLogout}
                 >
                   <IoIosLogOut />
                   Logout
@@ -212,10 +228,10 @@ const Dashboard = () => {
               </ListItem>
               <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
                 <RouterNavLink
-                  to="/dashboard/allUsers"
                   className={({ isActive }) =>
                     isActive ? "active" : "navLink"
                   }
+                  onClick={handleLogout}
                 >
                   <IoIosLogOut />
                   Logout
