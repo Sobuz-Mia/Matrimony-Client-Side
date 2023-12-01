@@ -46,7 +46,7 @@ export default function ManageUser() {
       }
     });
   };
-  const handlePremimuUser = (email) => {
+  const handlePremimuUser = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to convert this!",
@@ -57,7 +57,7 @@ export default function ManageUser() {
       confirmButtonText: "Yes, Convert to premium!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.patch(`/user/premium?email=${email}`).then((res) => {
+        axiosSecure.patch(`/user/premium/${id}`).then((res) => {
           if (res.data.modifiedCount > 0) {
             refetch();
             Swal.fire({
@@ -118,14 +118,14 @@ export default function ManageUser() {
                 align="center"
                 sx={{ fontSize: "20px" }}
               >
-                <FaEdit />
+                {item?.role == "Admin" ?"Admin" :<FaEdit />}
               </TableCell>
               <TableCell
-                onClick={() => handlePremimuUser(item?.email)}
+                onClick={() => handlePremimuUser(item?._id)}
                 align="center"
                 style={{ color: "red", fontSize: "20px" }}
               >
-                <TbPremiumRights />
+                {item?.userStatus=="premium"?"Premium" :<TbPremiumRights />}
               </TableCell>
             </TableRow>
           ))}

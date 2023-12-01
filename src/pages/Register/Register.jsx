@@ -27,7 +27,6 @@ export default function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("hello");
     const data = new FormData(event.currentTarget);
     const userInfo = {
       name: data.get("name"),

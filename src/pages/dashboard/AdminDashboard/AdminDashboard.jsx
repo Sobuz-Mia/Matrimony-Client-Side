@@ -20,7 +20,7 @@ const AdminDashboard = () => {
       return res?.data;
     },
   });
- 
+
   return (
     <>
       {allCountData?.totalRevenue && (
@@ -30,12 +30,12 @@ const AdminDashboard = () => {
             maxWidth: "fit-Content",
             my: "5px",
             padding: "5px",
-            fontWeight:'bold',
-            
+            fontWeight: "bold",
+            mt:5
           }}
         >
-          <Typography color={"secondary"} sx={{fontSize:'25px'}}>
-            Total Revenue = {allCountData?.totalRevenue} Tk Only
+          <Typography sx={{ fontSize: "25px"}}>
+            Total Revenue = <span style={{color:'#E33183'}}>{allCountData?.totalRevenue}</span> Tk Only
           </Typography>
         </Paper>
       )}
@@ -68,22 +68,21 @@ const AdminDashboard = () => {
           </TableHead>
           <TableBody>
             <TableRow>
-              {allCountData?.totalBio && (
-                <TableCell component="th" scope="row">
-                  {allCountData?.totalBio}
-                </TableCell>
-              )}
-              {allCountData?.maleData && (
-                <TableCell align="center">{allCountData?.maleData}</TableCell>
-              )}
-              {allCountData?.femaleData && (
-                <TableCell align="center">{allCountData?.femaleData}</TableCell>
-              )}
-              {allCountData?.premiumData && (
-                <TableCell align="center">
-                  {allCountData?.premiumData}
-                </TableCell>
-              )}
+              <TableCell component="th" scope="row">
+                {allCountData?.totalBio && allCountData?.totalBio}
+              </TableCell>
+
+              <TableCell align="center">
+                {allCountData?.maleData && allCountData?.maleData}
+              </TableCell>
+
+              <TableCell align="center">
+                {allCountData?.femaleData && allCountData?.femaleData}
+              </TableCell>
+
+              <TableCell align="center">
+                {allCountData?.premiumData && allCountData?.premiumData}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import SimilarCards from "../dashboard/EditBiodata/SimilarCards";
@@ -13,41 +13,47 @@ import {
 } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useUserBiodata from "../../hooks/useUserBiodata";
 
 const BiodataDetailPage = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { id } = useParams();
-  const [biodata, setBiodata] = useState([]);
+  const [singlebiodata, setSingleBiodata] = useState([]);
   const [similarData, setSimilarData] = useState([]);
-  const [premiumData, setPremiumData] = useState(null);
+  const [premiumData, setPremiumData] = useState({});
+  const [biodata, ] = useUserBiodata();
   useEffect(() => {
     // fetch single data
     axiosSecure.get(`/biodata/${id}`).then((res) => {
-      setBiodata(res.data);
+      setSingleBiodata(res.data);
     });
 
     // // Fetch similar biodata based on gender
 
+   
     axiosSecure
-      .get(`/similar-data?gender=${biodata?.biodataType}`)
-      .then((res) => setSimilarData(res.data));
+    .get(`/similar-data?gender=${singlebiodata?.biodataType}`)
+    .then((res) => setSimilarData(res.data));
 
     // premium user data load
-    axiosSecure
-      .get(`/check-user-premium?email=${user?.email}&id=${biodata?.biodataId}`)
-      .then((res) => setPremiumData(res.data));
-  }, [axiosSecure, id, biodata.biodataType, user?.email, biodata?.biodataId]);
+    singlebiodata?.biodataId &&
+      axiosSecure
+        .get(`/check-user-premium?email=${user?.email}&id=${singlebiodata.biodataId}`)
+        .then((res) => setPremiumData(res.data));
+  
+    
+  }, [axiosSecure, id, singlebiodata.biodataType, user?.email, singlebiodata?.biodataId]);
 
   //  handle add to favourites data
   
   
   const handleAddToFavourites = () => {
     const biodataInfo = {
-      name:biodata?.name,
-      biodataId:biodata?.biodataId,
-      permanentAddress: biodata?.permanentDivision,
-      occupation:biodata?.occupation,
+      name:singlebiodata?.name,
+      biodataId:singlebiodata?.biodataId,
+      permanentAddress: singlebiodata?.permanentDivision,
+      occupation:singlebiodata?.occupation,
       userEmail:user?.email
     }
     axiosSecure.post("/addToFavourite-collection", biodataInfo).then((res) => {
@@ -62,6 +68,7 @@ const BiodataDetailPage = () => {
       }
     });
   };
+
   return (
     <Grid container spacing={3}>
       {/* Left Side: Biodata Details Information */}
@@ -70,47 +77,47 @@ const BiodataDetailPage = () => {
           <CardMedia
             component="img"
             height="140"
-            image={biodata.photoUrl}
+            image={singlebiodata.photoUrl}
             alt="Profile Image"
             sx={{ objectFit: "cover" }}
           />
           <Grid style={{ display: "flex", gap: "20px", flexGrow: 1 }}>
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
-                Biodata ID: {biodata.biodataId}
+                Biodata ID: {singlebiodata.biodataId}
               </Typography>
               <Typography gutterBottom variant="h6" component="div">
-                Name: {biodata.name}
+                Name: {singlebiodata.name}
               </Typography>
               <Grid sx={{ display: "flex", gap: "20px" }}>
                 <Typography variant="body2" color="text.secondary">
-                  Gender: {biodata.gender === "male" ? "Male" : "Female"}
+                  Gender: {singlebiodata.gender === "male" ? "Male" : "Female"}
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary">
-                  Permanent Division: {biodata.permanentDivision}
+                  Permanent Division: {singlebiodata.permanentDivision}
                 </Typography>
               </Grid>
               <Typography variant="body2" color="text.secondary">
-                Age: {biodata.age}
+                Age: {singlebiodata.age}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Date of Birth: {biodata.dateOfBirth}
+                Date of Birth: {singlebiodata.dateOfBirth}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Occupation: {biodata.occupation}
+                Occupation: {singlebiodata.occupation}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Race: {biodata.race}
+                Race: {singlebiodata.race}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Weight: {biodata.weight}
+                Weight: {singlebiodata.weight}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Father Name: {biodata.fatherName}
+                Father Name: {singlebiodata.fatherName}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Mother Name: {biodata.motherName}
+                Mother Name: {singlebiodata.motherName}
               </Typography>
             </CardContent>
             <CardContent>
@@ -138,7 +145,7 @@ const BiodataDetailPage = () => {
                   </Typography>
 
                   <Typography variant="body2" color="text.secondary">
-                    Phone Number: {premiumData?.phone}
+                    Phone Number: {premiumData?.phoneNumber}
                   </Typography>
                 </Grid>
               )}
@@ -154,7 +161,8 @@ const BiodataDetailPage = () => {
               Add to favourites
             </Button>
 
-            <Link to={`/checkout/${biodata?._id}`}>
+            {biodata?
+              <Link to={`/checkout/${singlebiodata?._id}`}>
               {premiumData?.message == "you are not premium member" ? (
                 <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
                   Request for contact information
@@ -163,6 +171,10 @@ const BiodataDetailPage = () => {
                 ""
               )}
             </Link>
+            :
+            <Navigate  to="/dashboard/editBiodata"></Navigate>
+            // <Link></Link>
+            }
           </Grid>
         </Card>
       </Grid>

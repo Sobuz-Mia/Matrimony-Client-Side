@@ -6,7 +6,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useQuery } from "@tanstack/react-query";
-import { TbPremiumRights } from "react-icons/tb";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Button } from "@mui/material";
@@ -21,7 +20,7 @@ export default function ApprovedPremium() {
       return res?.data;
     },
   });
- 
+
   const handlePremimuUser = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -47,6 +46,7 @@ export default function ApprovedPremium() {
       }
     });
   };
+  console.log(PremiumData);
   return (
     <TableContainer component={Paper} sx={{ mt: 2 }}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -80,7 +80,7 @@ export default function ApprovedPremium() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {PremiumData.map((item, index) => (
+          {PremiumData?.map((item, index) => (
             <TableRow key={item._id}>
               <TableCell component="th" scope="row">
                 {index + 1}
@@ -93,17 +93,10 @@ export default function ApprovedPremium() {
               <TableCell
                 onClick={() => handlePremimuUser(item?.biodataId)}
                 align="center"
-               
               >
-                <Button  style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}>
-                  <TbPremiumRights style={{fontSize:'20px'}} />
-                  Premium
-                </Button>
+               <Button variant="outlined" color="secondary" style={{textTransform:'capitalize'}}>
+               {item?.premiumRequest === "Pending" ?"Pending" :"Approved"}
+               </Button>
               </TableCell>
             </TableRow>
           ))}

@@ -17,6 +17,7 @@ import AdminDashboard from "../pages/dashboard/AdminDashboard/AdminDashboard";
 import ManageUser from "../pages/dashboard/ManageUser/ManageUser";
 import ApprovedPremium from "../pages/dashboard/ApprovedPremium/ApprovedPremium";
 import ApprovedContactRequest from "../pages/dashboard/ApprovedContactRequest/ApprovedContactRequest";
+import AdminRoutes from "./adminRoutes";
 
 const router = createBrowserRouter([
   {
@@ -87,7 +88,11 @@ const router = createBrowserRouter([
       },
       {
         path: "manage-user",
-        element: <ManageUser />,
+        element: (
+          <AdminRoutes>
+            <ManageUser />
+          </AdminRoutes>
+        ),
       },
       {
         path: "approved-premium",
@@ -95,7 +100,11 @@ const router = createBrowserRouter([
       },
       {
         path: "approved-contact-request",
-        element: <ApprovedContactRequest />,
+        element: (
+          <AdminRoutes>
+            <ApprovedContactRequest />
+          </AdminRoutes>
+        ),
       },
     ],
   },

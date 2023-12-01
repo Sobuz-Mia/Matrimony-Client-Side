@@ -46,7 +46,7 @@ const ViewBiodata = () => {
       email: user?.email,
       contactEmail: data.contactEmail|| '',
       phone: data.phoneNumber || '',
-      premiumRequest: "Pending to premium",
+      premiumRequest: "Pending",
     };
     Swal.fire({
       title: "Are you sure?",

@@ -92,12 +92,13 @@ export default function ApprovedContactRequest() {
               <TableCell
                 onClick={() => handleStatusUpdate(item?.biodataId)}
                 align="center"
+                sx={{display:'flex',justifyContent:'center'}}
                
               >
                 <Button  style={{
                   color: item.status === "approved" ? "green" : "red",
                   display: "flex",
-                  alignItems: "center",
+                  border:'1px solid',
                   gap: "10px",
                   textTransform:'capitalize'
                 }}>

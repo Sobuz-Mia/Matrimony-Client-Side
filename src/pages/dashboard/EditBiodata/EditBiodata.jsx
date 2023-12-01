@@ -59,7 +59,7 @@ const EditBiodata = () => {
       contactEmail:data.email,
       phoneNumber:data?.phoneNumber
     };
-   
+   console.log(biodataInfo)
     // create biodata
     axiosSecure.post("/edit-create/biodata", biodataInfo).then((res) => {
       if (res.data.insertedId) {
@@ -701,7 +701,7 @@ const EditBiodata = () => {
                       color="secondary"
                       sx={{ textTransform: "capitalize" }}
                     >
-                      Save And Publish Now
+                      Save Edit Biodata
                     </Button>
                   </CardContent>
                 </Card>

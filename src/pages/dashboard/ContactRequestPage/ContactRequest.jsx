@@ -101,7 +101,7 @@ export default function ContactRequest() {
                 {item?.name}
               </TableCell>
               <TableCell align="center">{item?.biodataId}</TableCell>
-              <TableCell align="center">{item?.status === "approved" ? <Typography variant="h5" fontWeight={'bold'} color={'green'}>{item.status}</Typography> : <Typography variant="h6" color={'secondary'}>{item.status}</Typography>}</TableCell>
+              <TableCell align="center">{item?.status === "approved" ? <Typography  fontWeight={'bold'} color={'green'}>{item.status}</Typography> : <Typography variant="h6" color={'secondary'}>{item.status}</Typography>}</TableCell>
               <TableCell align="center">{item.status === "approved" ? item.mobileNumber : "Your request is pending"}</TableCell>
               <TableCell align="center">{item.status === "approved" ? item.contactEmail : "Your request is pending"}</TableCell>
               <TableCell
