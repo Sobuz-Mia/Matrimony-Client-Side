@@ -16,6 +16,7 @@ import { IoIosLogOut } from "react-icons/io";
 import useAdmin from "../hooks/useAdmin";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 const Dashboard = () => {
     const {loggedOut} = useAuth();
@@ -211,6 +212,18 @@ const Dashboard = () => {
                 >
                   <MdFavoriteBorder />
                   Favorite Biodata
+                </RouterNavLink>
+              </ListItem>
+              <ListItem className="navLink" sx={{ marginBottom: "1rem" }}>
+                <RouterNavLink
+                  to="/dashboard/got-married"
+                  className={({ isActive }) =>
+                    isActive ? "active" : "navLink"
+                  }
+                  style={{ display: "flex", alignItems: "center", gap: "5px" }}
+                >
+                 <VolunteerActivismIcon/>
+                  Got Married
                 </RouterNavLink>
               </ListItem>
               <Divider variant="middle" />

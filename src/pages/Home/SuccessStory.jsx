@@ -60,7 +60,7 @@ const SuccessStory = () => {
                   }}
                 />
                 <Typography variant="h6" gutterBottom>
-                  {story?.marriageDate}
+                  Marriage Date: {story?.marriageDate}
                 </Typography>
                 <Rating value={5} readOnly />
                 <Typography variant="body2" style={{ marginTop: "10px" }}>

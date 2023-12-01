@@ -18,6 +18,7 @@ import ManageUser from "../pages/dashboard/ManageUser/ManageUser";
 import ApprovedPremium from "../pages/dashboard/ApprovedPremium/ApprovedPremium";
 import ApprovedContactRequest from "../pages/dashboard/ApprovedContactRequest/ApprovedContactRequest";
 import AdminRoutes from "./adminRoutes";
+import GotMarried from "../pages/dashboard/GotMarried/GotMarried";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
     path: "dashboard",
     element: <Dashboard />,
     children: [
+      // user routes
       {
         path: "editBiodata",
         element: <EditBiodata />,
@@ -82,6 +84,11 @@ const router = createBrowserRouter([
         path: "contact-request",
         element: <ContactRequest />,
       },
+      {
+        path:'got-married',
+        element:<GotMarried/>
+      },
+      // admin routes
       {
         path: "adminDashboard",
         element: <AdminDashboard />,

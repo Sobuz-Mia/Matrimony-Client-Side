@@ -93,7 +93,9 @@ function Navbar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        <p>
+          Matri <span style={{ color: "#E33183" }}>Marry</span>
+        </p>
       </Typography>
       <Divider />
       <ul
@@ -189,7 +191,7 @@ function Navbar(props) {
                         </Typography>
                       </MenuItem>
                       <MenuItem>
-                        <Link to={'dashboard'} className="navLink">
+                        <Link to={"dashboard"} className="navLink">
                           <Typography textAlign="center">Dashboard</Typography>
                         </Link>
                       </MenuItem>
