@@ -22,6 +22,7 @@ import logo from "../../assets/logo.jpg";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useAdmin from "../../hooks/useAdmin";
 const drawerWidth = 240;
 const navLinks = (
   <>
@@ -68,6 +69,7 @@ function Navbar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { user, loggedOut } = useAuth();
+  const [isAdmin] = useAdmin();
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -191,9 +193,13 @@ function Navbar(props) {
                         </Typography>
                       </MenuItem>
                       <MenuItem>
-                        <Link to={"dashboard"} className="navLink">
+                        {user&& isAdmin?
+                          <Link to={"/dashboard/adminDashboard"} className="navLink">
                           <Typography textAlign="center">Dashboard</Typography>
                         </Link>
+                        :<Link to={"/dashboard/user-home"} className="navLink">
+                          <Typography textAlign="center">Dashboard</Typography>
+                        </Link>}
                       </MenuItem>
                       <MenuItem onClick={handleSignOut}>
                         <Typography textAlign="center">Logout</Typography>

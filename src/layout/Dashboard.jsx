@@ -9,7 +9,7 @@ import {
 import { Outlet, NavLink as RouterNavLink, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import { ImProfile } from "react-icons/im";
-import { FaStreetView, FaUser } from "react-icons/fa";
+import { FaStreetView, FaUser, FaUserAlt } from "react-icons/fa";
 import { MdContacts } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
@@ -166,6 +166,18 @@ const Dashboard = () => {
               Find your Partner
             </Typography>
             <List sx={{ padding: 0 }}>
+              <ListItem sx={{ marginBottom: "1rem" }}>
+                <RouterNavLink
+                  to="/dashboard/user-home"
+                  className={({ isActive }) =>
+                    isActive ? "active" : "navLink"
+                  }
+                  style={{ display: "flex", alignItems: "center", gap: "5px" }}
+                >
+                  <FaUserAlt/>
+                  User Home
+                </RouterNavLink>
+              </ListItem>
               <ListItem sx={{ marginBottom: "1rem" }}>
                 <RouterNavLink
                   to="/dashboard/editBiodata"

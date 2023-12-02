@@ -19,6 +19,7 @@ import ApprovedPremium from "../pages/dashboard/ApprovedPremium/ApprovedPremium"
 import ApprovedContactRequest from "../pages/dashboard/ApprovedContactRequest/ApprovedContactRequest";
 import AdminRoutes from "./adminRoutes";
 import GotMarried from "../pages/dashboard/GotMarried/GotMarried";
+import UserHome from "../pages/dashboard/UserHome/UserHome";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
     element: <Dashboard />,
     children: [
       // user routes
+      {
+        path:'user-home',
+        element:<UserHome/>
+      },
       {
         path: "editBiodata",
         element: <EditBiodata />,
