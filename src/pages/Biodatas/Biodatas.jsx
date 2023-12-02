@@ -1,9 +1,11 @@
 import {
+  Box,
   Button,
   Container,
   Grid,
   Pagination,
   PaginationItem,
+  Skeleton,
   Stack,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -18,16 +20,18 @@ const Biodatas = () => {
   const [displayedBiodata, setDisplayedBiodata] = useState([]);
   const axiosSecure = useAxiosSecure();
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 10;
 
-//  handle all biodata button
+  //  handle all biodata button
   const handleShowAllBiodata = () => {
     setDisplayedBiodata(biodata);
   };
-// handle search value
+  // handle search value
   const handleSearch = (e) => {
     setSearchInput(e.target.value.toLowerCase());
   };
+
   useEffect(() => {
     axiosSecure.get("/biodatas").then((res) => {
       setBiodata(res.data);
@@ -45,10 +49,25 @@ const Biodatas = () => {
       const endIndex = startIndex + itemsPerPage;
       const paginatedBiodata = filteredBiodata.slice(startIndex, endIndex);
       setDisplayedBiodata(paginatedBiodata);
-    
+      setLoading(false);
     });
   }, [axiosSecure, searchInput, currentPage]);
-
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          p: 8,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          color:'#E33183',
+          fontSize:'30px'
+        }}
+      >
+        Loading
+      </Box>
+    );
+  }
   return (
     <Container maxWidth="lg" sx={{ mx: "auto" }}>
       <form>
@@ -85,10 +104,7 @@ const Biodatas = () => {
         ))}
       </Grid>
       <Grid>
-        <Stack
-          spacing={2}
-          style={{ marginBottom: "10px" }}
-        >
+        <Stack spacing={2} style={{ marginBottom: "10px" }}>
           <Pagination
             sx={{
               width: "380px",

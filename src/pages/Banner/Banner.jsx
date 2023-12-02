@@ -5,13 +5,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import BannerCard from "./BannerCard";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Grid } from "@mui/material";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 const Banner = () => {
   const [biodata, setBiodata] = useState([]);
+  const axiosPublic = useAxiosPublic();
   useEffect(() => {
-    axios.get("/data.json").then((res) => setBiodata(res.data));
-  }, []);
+    axiosPublic.get(`/banner/biodatas?dataType=premium`).then((res) => setBiodata(res?.data));
+  }, [axiosPublic]);
   return (
     <Grid sx={{ mt: "10px", mb: "10px" }}>
       <Swiper

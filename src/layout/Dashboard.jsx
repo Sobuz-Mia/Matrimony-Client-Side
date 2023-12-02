@@ -146,7 +146,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       ) : (
-        <Grid container style={{ display: "flex", gap: "10px" }}>
+        <Grid container style={{ display: "flex", gap: "10px",flexGrow:1 }}>
           {/* Sidebar */}
           <Grid item style={sidebarStyle}>
             <Typography

@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, Container, Grid, Paper, Typography } from "@mui/material";
+import { Avatar, Box, CardContent, Container, Grid, Paper, Typography } from "@mui/material";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";

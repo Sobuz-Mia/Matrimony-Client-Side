@@ -49,8 +49,8 @@ export default function ContactRequest() {
     });
   };
   return (
-    <TableContainer component={Paper} sx={{ mt: 2 }}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+    <TableContainer component={Paper} sx={{ mt: 2 ,width:'850px'}}>
+      <Table  size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell style={{ fontSize: "18px", fontWeight: "bold" }}>
@@ -63,7 +63,7 @@ export default function ContactRequest() {
               align="center"
               style={{ fontSize: "18px", fontWeight: "bold" }}
             >
-              Biodata Id
+               Id No
             </TableCell>
             <TableCell
               align="center"

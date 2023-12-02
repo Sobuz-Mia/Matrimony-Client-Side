@@ -5,9 +5,9 @@ import { Button, CardActionArea, Grid, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default function BannerCard({ item }) {
-  const { age, biodataId, biodataType, division, occupation, profileImage } =
+  const { age, biodataId, biodataType, permanentDivision, occupation, photoUrl,_id } =
     item;
- 
+
   return (
     <Card sx={{ height: "full" }}>
       <CardActionArea>
@@ -19,7 +19,7 @@ export default function BannerCard({ item }) {
               width: "150px",
               pt: 5,
             }}
-            src={profileImage}
+            src={photoUrl}
             alt=""
           />
         </Grid>
@@ -33,7 +33,7 @@ export default function BannerCard({ item }) {
               padding: "5px",
             }}
           >
-            Id: {biodataId}
+            Id No: {biodataId}
           </Paper>
           <Typography variant="h5" color="secondary">
             Gender:{biodataType}
@@ -43,13 +43,13 @@ export default function BannerCard({ item }) {
           </Typography>
           <Grid sx={{ display: "flex", justifyContent: "center", gap: "20px" }}>
             <Typography variant="h6" color="text.secondary">
-              <span style={{ color: "#272727" }}>Location:</span> {division}
+              <span style={{ color: "#272727" }}>Location:</span> {permanentDivision}
             </Typography>
             <Typography variant="h6" color="text.secondary">
               <span style={{ color: "#272727" }}>Occupation:</span> {occupation}
             </Typography>
           </Grid>
-          <Link to={'/details'}>
+          <Link to={`biodatas/detailsPage/${_id}`}>
             <Button variant="outlined" color="secondary" sx={{ my: "10px" }}>
               View Profile
             </Button>
