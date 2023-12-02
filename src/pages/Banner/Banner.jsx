@@ -29,7 +29,7 @@ const Banner = () => {
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper"
       >
-        {biodata.slice(0, 6).map((item) => (
+        {biodata && biodata.slice(0, 6).map((item) => (
           <SwiperSlide key={item.biodataId}>
             <Grid sx={{width:'100%',textAlign:'center',margin:'auto',height:'400px'}}>
               <BannerCard item={item} />

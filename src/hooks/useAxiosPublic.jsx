@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://matrimony-server-side-two.vercel.app/api",
 });
 const useAxiosPublic = () => {
   return instance;

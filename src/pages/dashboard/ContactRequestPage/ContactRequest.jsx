@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import { Typography } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 
 export default function ContactRequest() {
   const axiosSecure = useAxiosSecure();
@@ -50,6 +51,9 @@ export default function ContactRequest() {
   };
   return (
     <TableContainer component={Paper} sx={{ mt: 2 ,width:'850px'}}>
+      <Helmet>
+        <title>Dashboard || Contact Request</title>
+      </Helmet>
       <Table  size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>

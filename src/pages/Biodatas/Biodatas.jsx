@@ -5,7 +5,6 @@ import {
   Grid,
   Pagination,
   PaginationItem,
-  Skeleton,
   Stack,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -13,6 +12,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import BiodataCard from "./BiodataCard";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { Helmet } from "react-helmet-async";
 
 const Biodatas = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -70,6 +70,9 @@ const Biodatas = () => {
   }
   return (
     <Container maxWidth="lg" sx={{ mx: "auto" }}>
+      <Helmet>
+        <title>Matri-marry || Biodatas</title>
+      </Helmet>
       <form>
         <label style={{ color: "#E33183" }}>Search here</label>
         <Grid sx={{ display: "flex", gap: "10px" }}>

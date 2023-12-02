@@ -14,6 +14,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useUserBiodata from "../../hooks/useUserBiodata";
+import { Helmet } from "react-helmet-async";
 
 const BiodataDetailPage = () => {
   const axiosSecure = useAxiosSecure();
@@ -71,6 +72,9 @@ const BiodataDetailPage = () => {
 
   return (
     <Grid container spacing={3}>
+      <Helmet>
+        <title>Details || Biodata</title>
+      </Helmet>
       {/* Left Side: Biodata Details Information */}
       <Grid item xs={8} md={6}>
         <Card sx={{ maxWidth: 700, margin: 2 }}>
@@ -173,7 +177,6 @@ const BiodataDetailPage = () => {
             </Link>
             :
             <Navigate  to="/dashboard/editBiodata"></Navigate>
-            // <Link></Link>
             }
           </Grid>
         </Card>

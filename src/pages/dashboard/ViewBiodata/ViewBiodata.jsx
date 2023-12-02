@@ -13,6 +13,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const ViewBiodata = () => {
   const { control, handleSubmit, reset } = useForm();
@@ -77,6 +78,9 @@ const ViewBiodata = () => {
  
   return (
     <Container>
+      <Helmet>
+        <title>Dashboard || View Biodata</title>
+      </Helmet>
       <Typography
         sx={{ textAlign: "center", my: 2, fontSize: "30px" }}
         color={"secondary"}

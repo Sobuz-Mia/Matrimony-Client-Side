@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const GotMarried = () => {
     const [textAreaValue, setTextAreaValue] = useState('');
@@ -44,6 +45,9 @@ const GotMarried = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Dashboard || Got Married</title>
+      </Helmet>
       <Typography
         sx={{ textAlign: "center", my: 2, fontSize: "30px" }}
         color={"secondary"}
@@ -109,6 +113,7 @@ const GotMarried = () => {
                     render={({ field }) => (
                       <input
                         {...field}
+                        label="Couple Picture Url"
                         type="date"
                         style={{ width: "50%", padding: "4" }}
                       />

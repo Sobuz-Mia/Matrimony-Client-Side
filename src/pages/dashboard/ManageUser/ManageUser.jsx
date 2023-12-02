@@ -12,6 +12,7 @@ import { FaEdit } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import { Grid } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 
 export default function ManageUser() {
   const axiosSecure = useAxiosSecure();
@@ -77,6 +78,9 @@ export default function ManageUser() {
   return (
     <>
       <Grid sx={{display:'flex',flexDirection:'column',gap:'5px',mt:'5px'}}>
+        <Helmet>
+          <title>Dashboard || Manage User</title>
+        </Helmet>
         <label style={{ color: "#E33183" ,fontSize:'20px'}}>Search user</label>
         <input
           onChange={(e) => setSearchValue(e.target.value)}

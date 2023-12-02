@@ -17,6 +17,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../dashboard/Payment/CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
+import { Helmet } from "react-helmet-async";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Payment_API_Key);
 const Checkout = () => {
@@ -55,6 +56,9 @@ const Checkout = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Checkout || page</title>
+      </Helmet>
       <Typography
         sx={{ textAlign: "center", my: 2, fontSize: "30px" }}
         color={"secondary"}

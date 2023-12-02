@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Button } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 
 export default function ApprovedContactRequest() {
   const axiosSecure = useAxiosSecure();
@@ -48,6 +49,9 @@ export default function ApprovedContactRequest() {
   };
   return (
     <TableContainer component={Paper} sx={{ mt: 2 }}>
+      <Helmet>
+        <title>Dashboard || Contact Request</title>
+      </Helmet>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>

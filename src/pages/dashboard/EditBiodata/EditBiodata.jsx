@@ -13,6 +13,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const EditBiodata = () => {
   const { control, handleSubmit, reset } = useForm();
@@ -94,6 +95,9 @@ const EditBiodata = () => {
     <>
       {existingBiodata ? (
         <Container>
+          <Helmet>
+            <title>Dashboard || Edit Bio</title>
+          </Helmet>
           <Typography
             sx={{ textAlign: "center", my: 2, fontSize: "30px" }}
             color={"secondary"}
@@ -413,6 +417,9 @@ const EditBiodata = () => {
         </Container>
       ) : (
         <Container>
+          <Helmet>
+            <title>Dashboard || Create Bio</title>
+          </Helmet>
           <Typography
             sx={{ textAlign: "center", my: 2, fontSize: "30px" }}
             color={"secondary"}

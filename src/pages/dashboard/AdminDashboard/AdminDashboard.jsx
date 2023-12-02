@@ -7,6 +7,7 @@ import { GiMale, GiFemale } from "react-icons/gi";
 import { IoMdStar } from "react-icons/io";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 import useAdmin from "../../../hooks/useAdmin";
+import { Helmet } from "react-helmet-async";
 const AdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
@@ -68,6 +69,9 @@ const AdminDashboard = () => {
   return (
     <>
       {user &&  <Container maxWidth="sm" sx={{ mt: 4 }}>
+        <Helmet>
+          <title>Dashboard || Admin</title>
+        </Helmet>
         <Paper elevation={3} sx={{ padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Avatar
             alt={user.displayName || 'User'}
